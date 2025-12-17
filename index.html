@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المراسل الفوري للواتساب</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h2 class="title">ابدأ محادثة واتساب فورية 🚀</h2>
+        
+        <div class="input-group">
+            <label for="countryCode">رمز الدولة:</label>
+            <select id="countryCode" onchange="updatePlaceholder()">
+                <option value="" disabled selected>اختَر أو ابحث عن الدولة</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label for="phoneInput">رقم الهاتف المحلي:</label>
+            <input type="tel" id="phoneInput" placeholder="أدخل الرقم المحلي هنا (مثال: 501234567)" inputmode="numeric">
+        </div>
+
+        <button onclick="openWhatsApp()">
+            <img src="whatsapp-icon.png" alt="WhatsApp Icon" class="icon"> مراسلة مباشرة
+        </button>
+
+        <p class="note">سيتم دمج رمز الدولة ورقم الهاتف لفتح المحادثة.</p>
+    </div>
+
+    <script>
+        const countryData = [
+            { name: 'السعودية', code: '966' },
+            { name: 'الإمارات', code: '971' },
+            { name: 'مصر', code: '20' },
+            { name: 'الكويت', code: '965' },
+            { name: 'قطر', code: '974' },
+            { name: 'البحرين', code: '973' },
+            { name: 'عُمان', code: '968' },
+            { name: 'العراق', code: '964' },
+            { name: 'الأردن', code: '962' },
+            { name: 'المغرب', code: '212' },
+            { name: 'الجزائر', code: '213' },
+            { name: 'تونس', code: '216' },
+            { name: 'تركيا', code: '90' },
+            // يمكنك إضافة المزيد من الدول هنا
+        ];
+
+        const selectElement = document.getElementById('countryCode');
+        const phoneInput = document.getElementById('phoneInput');
+        
+        // 1. ملء قائمة الدول
+        countryData.forEach(country => {
+            const option = document.createElement('option');
+            option.value = country.code;
+            option.textContent = `${country.name} (+${country.code})`;
+            selectElement.appendChild(option);
+        });
+
+        // 2. محاولة تحديد الموقع الجغرافي التلقائي (اختياري وقد يتطلب إذن المتصفح)
+        function fetchCountryCode() {
+            // هذا الجزء يحتاج إلى خدمة خارجية أو قاعدة بيانات IP لتحديد الدولة
+            // لكن لتبسيط المشروع، سنركز على القائمة المنسدلة
+        }
+        
+        // 3. تحديث مكان النص عند الاختيار
+        function updatePlaceholder() {
+            const selectedCode = selectElement.value;
+            if (selectedCode) {
+                phoneInput.placeholder = `الرقم المحلي (مثال: 501234567) مع مفتاح +${selectedCode}`;
+            }
+        }
+
+        // 4. وظيفة فتح الواتساب الرئيسية
+        function openWhatsApp() {
+            const countryCode = selectElement.value.trim();
+            const localNumber = phoneInput.value.trim().replace(/[\s+-]/g, '');
+
+            if (!countryCode) {
+                alert('الرجاء اختيار رمز الدولة أولاً.');
+                return;
+            }
+            if (!localNumber || localNumber.length < 6) {
+                alert('الرجاء إدخال رقم هاتف محلي صالح.');
+                return;
+            }
+
+            const fullNumber = countryCode + localNumber;
+            const whatsappLink = 'https://wa.me/' + fullNumber;
+            
+            window.open(whatsappLink, '_blank');
+        }
+
+        // تنفيذ الدوال الأولية
+        fetchCountryCode();
+        updatePlaceholder();
+    </script>
+</body>
+</html>
