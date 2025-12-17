@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -32,27 +33,38 @@
     </div>
 
     <script>
+        // مصفوفة الدول العربية ومفاتيحها
         const countryData = [
-            { name: 'السعودية', code: '966' },
-            { name: 'الإمارات', code: '971' },
+            { name: 'المملكة العربية السعودية', code: '966' },
             { name: 'مصر', code: '20' },
+            { name: 'الإمارات العربية المتحدة', code: '971' },
             { name: 'الكويت', code: '965' },
             { name: 'قطر', code: '974' },
             { name: 'البحرين', code: '973' },
-            { name: 'عُمان', code: '968' },
-            { name: 'العراق', code: '964' },
-            { name: 'الأردن', code: '962' },
+            { name: 'سلطنة عُمان', code: '968' },
             { name: 'المغرب', code: '212' },
             { name: 'الجزائر', code: '213' },
             { name: 'تونس', code: '216' },
-            { name: 'تركيا', code: '90' },
-            // يمكنك إضافة المزيد من الدول هنا
+            { name: 'الأردن', code: '962' },
+            { name: 'فلسطين', code: '970' },
+            { name: 'لبنان', code: '961' },
+            { name: 'العراق', code: '964' },
+            { name: 'اليمن', code: '967' },
+            { name: 'السودان', code: '249' },
+            { name: 'ليبيا', code: '218' },
+            { name: 'موريتانيا', code: '222' },
+            { name: 'الصومال', code: '252' },
+            { name: 'جيبوتي', code: '253' },
+            { name: 'جزر القمر', code: '269' },
+            { name: 'سوريا', code: '963' },
+            // يمكن إضافة دول أخرى إذا لزم الأمر
         ];
 
         const selectElement = document.getElementById('countryCode');
         const phoneInput = document.getElementById('phoneInput');
         
-        // 1. ملء قائمة الدول
+        // 1. ملء قائمة الدول وفرزها أبجدياً
+        countryData.sort((a, b) => a.name.localeCompare(b.name, 'ar'));
         countryData.forEach(country => {
             const option = document.createElement('option');
             option.value = country.code;
@@ -60,21 +72,15 @@
             selectElement.appendChild(option);
         });
 
-        // 2. محاولة تحديد الموقع الجغرافي التلقائي (اختياري وقد يتطلب إذن المتصفح)
-        function fetchCountryCode() {
-            // هذا الجزء يحتاج إلى خدمة خارجية أو قاعدة بيانات IP لتحديد الدولة
-            // لكن لتبسيط المشروع، سنركز على القائمة المنسدلة
-        }
-        
-        // 3. تحديث مكان النص عند الاختيار
+        // 2. تحديث مكان النص عند الاختيار
         function updatePlaceholder() {
             const selectedCode = selectElement.value;
             if (selectedCode) {
-                phoneInput.placeholder = `الرقم المحلي (مثال: 501234567) مع مفتاح +${selectedCode}`;
+                phoneInput.placeholder = `الرقم المحلي (بدون أصفار إضافية) بعد مفتاح +${selectedCode}`;
             }
         }
 
-        // 4. وظيفة فتح الواتساب الرئيسية
+        // 3. وظيفة فتح الواتساب الرئيسية
         function openWhatsApp() {
             const countryCode = selectElement.value.trim();
             const localNumber = phoneInput.value.trim().replace(/[\s+-]/g, '');
@@ -95,7 +101,6 @@
         }
 
         // تنفيذ الدوال الأولية
-        fetchCountryCode();
         updatePlaceholder();
     </script>
 </body>
