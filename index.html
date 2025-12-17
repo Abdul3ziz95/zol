@@ -14,29 +14,24 @@
 <body>
     <div class="container">
         
-        <div class="profile-header">
-            <img src="profile-pic.png" alt="صورة الملف التعريفي" class="profile-img">
-            <h1>عبد العزيز</h1>
-            <p class="description">مراسل الواتساب السوداني الفوري! أسرع طريقة للتواصل مع الأغراب في شغلنا اليومي. ما تضيّع زمنك في حفظ رقم جديد.</p>
-        </div>
+        <h1 class="app-heading">مراسل الواتساب المباشر</h1>
+        <p class="description">أسرع طريقة للتواصل، أدخل الرقم وابدأ المحادثة فوراً.</p>
 
-        <h2 class="title">إرسال رسالة مباشرة</h2>
-        
         <button id="installButton" class="install-prompt-button" style="display: none;">
-            📲 تثبيت كتطبيق على شاشتك
+            📲 تثبيت التطبيق
         </button>
         
         <div class="input-group">
-            <label for="countryCode">اختر الدولة أو دعنا نكتشفها لك:</label>
+            <label for="countryCode">اختر الدولة:</label>
             <select id="countryCode" onchange="updateFlagAndCode(this.value)">
                 <option value="" disabled selected>... جاري البحث عن موقعك أو اختر يدوياً</option>
             </select>
         </div>
 
-        <div class="input-group phone-group">
-            <div class="country-info">
+        <div class="phone-input-container">
+            <div class="country-code-wrapper">
                 <span id="currentFlag" class="flag-icon flag-icon-sd"></span>
-                <span id="currentCode" class="code-placeholder">+249</span>
+                <input type="tel" id="codeInput" value="+249" inputmode="numeric" placeholder="+XXX">
             </div>
             <input type="tel" id="phoneInput" placeholder="أدخل الرقم المحلي (بدون الرمز)" inputmode="numeric">
         </div>
@@ -45,15 +40,11 @@
             <img src="whatsapp-icon.png" alt="WhatsApp Icon" class="icon"> بدء المحادثة الآن
         </button>
 
-        <p class="note">يرجى التأكد من أن رمز الدولة الظاهر صحيح قبل إدخال الرقم المحلي.</p>
+        <p class="note">يرجى التأكد من صحة رمز الدولة المدخل.</p>
     </div>
 
     <footer class="app-footer">
         <p>جميع الحقوق محفوظة &copy; 2025. عبد العزيز</p>
-        <p>
-            إذا واجهتك مشكلة:
-            <a href="https://linktr.ee/abdul3ziz95" target="_blank" class="contact-link">اتصل بي</a>
-        </p>
     </footer>
 
     <script>
@@ -77,17 +68,15 @@
         });
 
         installButton.addEventListener('click', (e) => {
-            // محاولة إطلاق نافذة التثبيت الرسمية
             if (deferredPrompt) {
                 deferredPrompt.prompt();
                 deferredPrompt.userChoice.then((choiceResult) => {
                     if (choiceResult.outcome === 'accepted') {
-                        installButton.style.display = 'none'; // إخفاء الزر بعد الموافقة
+                        installButton.style.display = 'none'; 
                     }
                     deferredPrompt = null; 
                 });
             } else {
-                // رسالة بديلة إذا لم تظهر النافذة التلقائية
                 alert('لتثبيت التطبيق: افتح قائمة المتصفح (⋮) واختر "التثبيت" أو "إضافة إلى الشاشة الرئيسية".');
             }
         });
@@ -122,7 +111,8 @@
 
         const selectElement = document.getElementById('countryCode');
         const currentFlagSpan = document.getElementById('currentFlag');
-        const currentCodeSpan = document.getElementById('currentCode');
+        const codeInput = document.getElementById('codeInput'); // الحصول على حقل الإدخال الجديد
+        const phoneInput = document.getElementById('phoneInput'); 
         
         function populateCountries() {
             countryData.sort((a, b) => a.name.localeCompare(b.name, 'ar'));
@@ -139,12 +129,16 @@
             updateFlagAndCode('249');
         }
 
+        // تم تعديل هذه الدالة لتحديث حقل الإدخال الجديد
         function updateFlagAndCode(code) {
             const country = countryData.find(c => c.code === code);
             if (country) {
-                currentCodeSpan.textContent = `+${country.code}`;
+                codeInput.value = `+${country.code}`;
                 currentFlagSpan.className = `flag-icon flag-icon-${country.iso}`;
                 selectElement.value = code;
+            } else if (!code) {
+                 // حالة إذا لم يتم العثور على الدولة أو تم إفراغ الحقل
+                 currentFlagSpan.className = `flag-icon`;
             }
         }
 
@@ -166,10 +160,16 @@
             }
         }
 
+        // تم تعديل هذه الدالة لقراءة الرمز من حقل الإدخال الجديد
         function openWhatsApp() {
-            const code = currentCodeSpan.textContent.replace('+', '');
-            const localNumber = document.getElementById('phoneInput').value.trim().replace(/[\s+-]/g, '');
+            const code = codeInput.value.replace('+', '').trim(); // قراءة الرمز من حقل الإدخال
+            const localNumber = phoneInput.value.trim().replace(/[\s+-]/g, '');
 
+            if (!code || code.length < 1) {
+                alert('الرجاء إدخال رمز الدولة (مثال: 966) ورقم الهاتف.');
+                return;
+            }
+            
             if (!localNumber || localNumber.length < 6) {
                 alert('الرجاء إدخال رقم هاتف محلي صالح.');
                 return;
