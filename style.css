@@ -1,3 +1,4 @@
+
 :root {
     --whatsapp-green: #25D366;
     --light-bg: #f0f2f5;
@@ -61,7 +62,7 @@ input[type="tel"], select {
     font-size: 16px;
     text-align: right;
     transition: border-color 0.3s;
-    -webkit-appearance: none; /* إزالة مظهر المتصفح الافتراضي */
+    -webkit-appearance: none; 
     -moz-appearance: none;
     appearance: none;
     background-color: #fff;
