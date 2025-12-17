@@ -1,10 +1,10 @@
-
 :root {
     --whatsapp-green: #25D366;
     --light-bg: #f0f2f5;
     --dark-text: #1a1a1a;
     --border-color: #ddd;
     --shadow-color: rgba(0, 0, 0, 0.1);
+    --profile-bg: #e6e9ee;
 }
 
 * {
@@ -17,10 +17,11 @@ body {
     font-family: 'Cairo', sans-serif;
     background-color: var(--light-bg);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start; /* تغيير إلى flex-start لترك مساحة للتذييل */
     align-items: center;
     min-height: 100vh;
-    padding: 20px;
+    padding: 20px 20px 0;
     direction: rtl;
 }
 
@@ -32,18 +33,55 @@ body {
     width: 100%;
     max-width: 450px;
     text-align: center;
+    margin-bottom: 20px;
 }
 
+/* --- قسم الملف التعريفي --- */
+.profile-header {
+    background-color: var(--profile-bg);
+    padding: 20px 20px 30px;
+    margin: -30px -30px 25px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+}
+
+.profile-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 3px solid #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.profile-header h1 {
+    color: var(--dark-text);
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+
+.description {
+    color: #555;
+    font-size: 14px;
+    line-height: 1.6;
+    margin-top: 10px;
+}
+
+/* --- حقل الإدخال والقائمة --- */
 .title {
     color: var(--whatsapp-green);
-    margin-bottom: 35px;
+    margin-bottom: 25px;
     font-weight: 700;
-    font-size: 24px;
+    font-size: 20px;
 }
 
 .input-group {
     margin-bottom: 20px;
-    text-align: right;
+    position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 label {
@@ -52,6 +90,7 @@ label {
     margin-bottom: 8px;
     font-size: 14px;
     font-weight: 700;
+    text-align: right;
 }
 
 input[type="tel"], select {
@@ -62,10 +101,14 @@ input[type="tel"], select {
     font-size: 16px;
     text-align: right;
     transition: border-color 0.3s;
-    -webkit-appearance: none; 
-    -moz-appearance: none;
-    appearance: none;
     background-color: #fff;
+}
+
+select {
+    margin-bottom: 15px;
+    -webkit-appearance: menulist; /* السماح بمظهر القائمة المنسدلة الافتراضي */
+    -moz-appearance: menulist;
+    appearance: menulist;
 }
 
 input[type="tel"]:focus, select:focus {
@@ -73,6 +116,43 @@ input[type="tel"]:focus, select:focus {
     outline: none;
 }
 
+.phone-group {
+    flex-direction: row; /* جعل حقل الرقم والمعلومات في صف واحد */
+    margin-top: 5px;
+}
+
+.country-info {
+    display: flex;
+    align-items: center;
+    background-color: #eee;
+    padding: 0 10px;
+    border: 1px solid var(--border-color);
+    border-left: none; 
+    border-radius: 8px 0 0 8px; 
+    color: #555;
+    font-weight: bold;
+    min-width: 85px; /* تثبيت عرض معلومات الدولة */
+    height: 48px;
+}
+
+.flag-icon {
+    font-size: 20px;
+    margin-left: 5px;
+}
+
+.code-placeholder {
+    font-size: 16px;
+    margin-left: 5px;
+}
+
+.phone-group input[type="tel"] {
+    padding: 15px 12px;
+    border-radius: 0 8px 8px 0;
+    flex-grow: 1;
+}
+
+
+/* --- الزر والتذييل (لم يتغيروا) --- */
 button {
     width: 100%;
     background-color: var(--whatsapp-green);
@@ -105,3 +185,23 @@ button:hover {
     color: #999;
     margin-top: 25px;
 }
+
+.app-footer {
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 12px;
+    color: #888;
+}
+
+.app-footer p {
+    margin-bottom: 5px;
+}
+
+.contact-link {
+    color: var(--whatsapp-green);
+    text-decoration: none;
+    font-weight: bold;
+}
+
