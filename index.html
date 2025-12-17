@@ -1,15 +1,189 @@
 
-        // ... (نهاية الكود الخاص بدوال fetchUserCountry و openWhatsApp)
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مراسل عبد العزيز للواتساب</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
+    <link rel="shortcut icon" href="whatsapp-icon.png" type="image/png">
+</head>
+<body>
+    <div class="container">
+        
+        <div class="profile-header">
+            <img src="profile-pic.png" alt="صورة الملف التعريفي" class="profile-img">
+            <h1>عبد العزيز</h1>
+            <p class="description">مراسل الواتساب السوداني الفوري! أسرع طريقة للتواصل مع الأغراب في شغلنا اليومي. ما تضيّع زمنك في حفظ رقم جديد.</p>
+        </div>
+
+        <h2 class="title">إرسال رسالة مباشرة</h2>
+        
+        <button id="installButton" class="install-prompt-button" style="display: none;">
+            📲 تثبيت كتطبيق على شاشتك
+        </button>
+        
+        <div class="input-group">
+            <label for="countryCode">اختر الدولة أو دعنا نكتشفها لك:</label>
+            <select id="countryCode" onchange="updateFlagAndCode(this.value)">
+                <option value="" disabled selected>... جاري البحث عن موقعك أو اختر يدوياً</option>
+            </select>
+        </div>
+
+        <div class="input-group phone-group">
+            <div class="country-info">
+                <span id="currentFlag" class="flag-icon flag-icon-sd"></span>
+                <span id="currentCode" class="code-placeholder">+249</span>
+            </div>
+            <input type="tel" id="phoneInput" placeholder="أدخل الرقم المحلي (بدون الرمز)" inputmode="numeric">
+        </div>
+
+        <button onclick="openWhatsApp()">
+            <img src="whatsapp-icon.png" alt="WhatsApp Icon" class="icon"> بدء المحادثة الآن
+        </button>
+
+        <p class="note">يرجى التأكد من أن رمز الدولة الظاهر صحيح قبل إدخال الرقم المحلي.</p>
+    </div>
+
+    <footer class="app-footer">
+        <p>جميع الحقوق محفوظة &copy; 2025. عبد العزيز</p>
+        <p>
+            إذا واجهتك مشكلة:
+            <a href="https://linktr.ee/abdul3ziz95" target="_blank" class="contact-link">اتصل بي</a>
+        </p>
+    </footer>
+
+    <script>
+        // المتغير لتخزين حدث التثبيت
+        let deferredPrompt; 
+        const installButton = document.getElementById('installButton');
+
+        // ************** منطق التثبيت المنبثق (Install Prompt Logic) **************
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e; 
+            installButton.style.display = 'block';
+        });
+
+        installButton.addEventListener('click', (e) => {
+            installButton.style.display = 'none';
+
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('المستخدم وافق على التثبيت');
+                    } else {
+                        console.log('المستخدم رفض التثبيت');
+                    }
+                    deferredPrompt = null; 
+                });
+            } else {
+                alert('لتثبيت التطبيق: افتح قائمة المتصفح (⋮) واختر "التثبيت" أو "إضافة إلى الشاشة الرئيسية".');
+            }
+        });
+        // *******************************************************************
+        
+        // بيانات الدول العربية وجنوب السودان
+        const countryData = [
+            { name: 'المملكة العربية السعودية', code: '966', iso: 'sa' },
+            { name: 'السودان', code: '249', iso: 'sd' },
+            { name: 'الإمارات العربية المتحدة', code: '971', iso: 'ae' },
+            { name: 'مصر', code: '20', iso: 'eg' },
+            { name: 'الكويت', code: '965', iso: 'kw' },
+            { name: 'قطر', code: '974', iso: 'qa' },
+            { name: 'البحرين', code: '973', iso: 'bh' },
+            { name: 'سلطنة عُمان', code: '968', iso: 'om' },
+            { name: 'المغرب', code: '212', iso: 'ma' },
+            { name: 'الجزائر', code: '213', iso: 'dz' },
+            { name: 'تونس', code: '216', iso: 'tn' },
+            { name: 'الأردن', code: '962', iso: 'jo' },
+            { name: 'فلسطين', code: '970', iso: 'ps' },
+            { name: 'لبنان', code: '961', iso: 'lb' },
+            { name: 'العراق', code: '964', iso: 'iq' },
+            { name: 'اليمن', code: '967', iso: 'ye' },
+            { name: 'ليبيا', code: '218', iso: 'ly' },
+            { name: 'موريتانيا', code: '222', iso: 'mr' },
+            { name: 'الصومال', code: '252', iso: 'so' },
+            { name: 'جيبوتي', code: '253', iso: 'dj' },
+            { name: 'جزر القمر', code: '269', iso: 'km' },
+            { name: 'سوريا', code: '963', iso: 'sy' },
+            { name: 'جنوب السودان', code: '211', iso: 'ss' }
+        ];
+
+        const selectElement = document.getElementById('countryCode');
+        const currentFlagSpan = document.getElementById('currentFlag');
+        const currentCodeSpan = document.getElementById('currentCode');
+        
+        function populateCountries() {
+            countryData.sort((a, b) => a.name.localeCompare(b.name, 'ar'));
+            
+            countryData.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country.code;
+                option.setAttribute('data-iso', country.iso);
+                option.textContent = `(${country.code}+) ${country.name}`;
+                selectElement.appendChild(option);
+            });
+            // اختيار السودان كقيمة افتراضية
+            selectElement.value = '249'; 
+            updateFlagAndCode('249');
+        }
+
+        function updateFlagAndCode(code) {
+            const country = countryData.find(c => c.code === code);
+            if (country) {
+                currentCodeSpan.textContent = `+${country.code}`;
+                currentFlagSpan.className = `flag-icon flag-icon-${country.iso}`;
+                selectElement.value = code;
+            }
+        }
+
+        // محاولة تحديد الدولة التلقائي بناءً على IP (باستخدام خدمة مجانية)
+        async function fetchUserCountry() {
+            try {
+                const response = await fetch('https://ipapi.co/json/');
+                const data = await response.json();
+                
+                const userIso = data.country_code.toLowerCase();
+                
+                const detectedCountry = countryData.find(c => c.iso === userIso);
+                
+                if (detectedCountry) {
+                    updateFlagAndCode(detectedCountry.code);
+                }
+            } catch (error) {
+                console.error('فشل في جلب الموقع الجغرافي التلقائي.');
+            }
+        }
+
+        function openWhatsApp() {
+            const code = currentCodeSpan.textContent.replace('+', '');
+            const localNumber = document.getElementById('phoneInput').value.trim().replace(/[\s+-]/g, '');
+
+            if (!localNumber || localNumber.length < 6) {
+                alert('الرجاء إدخال رقم هاتف محلي صالح.');
+                return;
+            }
+
+            const fullNumber = code + localNumber;
+            const whatsappLink = 'https://wa.me/' + fullNumber;
+            
+            window.open(whatsappLink, '_blank');
+        }
 
         // تنفيذ الدوال عند تحميل الصفحة
         populateCountries();
         fetchUserCountry();
 
-        // ************** التعديل النهائي لـ Service Worker **************
+        // ************** التعديل الأخير لـ Service Worker (المسار المطلق) **************
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                // نستخدم مساراً نسبياً و نعتمد على النطاق الافتراضي
-                navigator.serviceWorker.register('sw.js')
+                // نستخدم المسار المطلق الذي أثبت موثوقيته على GitHub Pages
+                navigator.serviceWorker.register('/zool/sw.js', { scope: '/zool/' })
                     .then((registration) => {
                         console.log('ServiceWorker registration successful with scope: ', registration.scope);
                     })
