@@ -4,104 +4,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المراسل الفوري للواتساب</title>
+    <title>مراسل عبد العزيز للواتساب</title>
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
+    <link rel="shortcut icon" href="whatsapp-icon.png" type="image/png">
 </head>
 <body>
     <div class="container">
-        <h2 class="title">ابدأ محادثة واتساب فورية 🚀</h2>
+        
+        <div class="profile-header">
+            <img src="profile-pic.png" alt="صورة الملف التعريفي" class="profile-img">
+            <h1>عبد العزيز</h1>
+            <p class="description">مراسل الواتساب السوداني الفوري! أسرع طريقة للتواصل مع الأغراب في شغلنا اليومي. ما تضيّع زمنك في حفظ رقم جديد.</p>
+        </div>
+
+        <h2 class="title">إرسال رسالة مباشرة</h2>
         
         <div class="input-group">
-            <label for="countryCode">رمز الدولة:</label>
-            <select id="countryCode" onchange="updatePlaceholder()">
-                <option value="" disabled selected>اختَر أو ابحث عن الدولة</option>
+            <label for="countryCode">اختر الدولة أو دعنا نكتشفها لك:</label>
+            <select id="countryCode" onchange="updateFlagAndCode(this.value)">
+                <option value="" disabled selected>... جاري البحث عن موقعك أو اختر يدوياً</option>
             </select>
         </div>
 
-        <div class="input-group">
-            <label for="phoneInput">رقم الهاتف المحلي:</label>
-            <input type="tel" id="phoneInput" placeholder="أدخل الرقم المحلي هنا (مثال: 501234567)" inputmode="numeric">
+        <div class="input-group phone-group">
+            <div class="country-info">
+                <span id="currentFlag" class="flag-icon flag-icon-sd"></span>
+                <span id="currentCode" class="code-placeholder">+249</span>
+            </div>
+            <input type="tel" id="phoneInput" placeholder="أدخل الرقم المحلي (بدون الرمز)" inputmode="numeric">
         </div>
 
         <button onclick="openWhatsApp()">
-            <img src="whatsapp-icon.png" alt="WhatsApp Icon" class="icon"> مراسلة مباشرة
+            <img src="whatsapp-icon.png" alt="WhatsApp Icon" class="icon"> بدء المحادثة الآن
         </button>
 
-        <p class="note">سيتم دمج رمز الدولة ورقم الهاتف لفتح المحادثة.</p>
+        <p class="note">يرجى التأكد من أن رمز الدولة الظاهر صحيح قبل إدخال الرقم المحلي.</p>
     </div>
 
+    <footer class="app-footer">
+        <p>جميع الحقوق محفوظة &copy; 2025. عبد العزيز</p>
+        <p>
+            إذا واجهتك مشكلة:
+            <a href="https://linktr.ee/abdul3ziz95" target="_blank" class="contact-link">اتصل بي</a>
+        </p>
+    </footer>
+
     <script>
-        // مصفوفة الدول العربية ومفاتيحها
+        // بيانات الدول العربية وجنوب السودان
         const countryData = [
-            { name: 'المملكة العربية السعودية', code: '966' },
-            { name: 'مصر', code: '20' },
-            { name: 'الإمارات العربية المتحدة', code: '971' },
-            { name: 'الكويت', code: '965' },
-            { name: 'قطر', code: '974' },
-            { name: 'البحرين', code: '973' },
-            { name: 'سلطنة عُمان', code: '968' },
-            { name: 'المغرب', code: '212' },
-            { name: 'الجزائر', code: '213' },
-            { name: 'تونس', code: '216' },
-            { name: 'الأردن', code: '962' },
-            { name: 'فلسطين', code: '970' },
-            { name: 'لبنان', code: '961' },
-            { name: 'العراق', code: '964' },
-            { name: 'اليمن', code: '967' },
-            { name: 'السودان', code: '249' },
-            { name: 'ليبيا', code: '218' },
-            { name: 'موريتانيا', code: '222' },
-            { name: 'الصومال', code: '252' },
-            { name: 'جيبوتي', code: '253' },
-            { name: 'جزر القمر', code: '269' },
-            { name: 'سوريا', code: '963' },
-            // يمكن إضافة دول أخرى إذا لزم الأمر
+            { name: 'المملكة العربية السعودية', code: '966', iso: 'sa' },
+            { name: 'السودان', code: '249', iso: 'sd' },
+            { name: 'الإمارات العربية المتحدة', code: '971', iso: 'ae' },
+            { name: 'مصر', code: '20', iso: 'eg' },
+            { name: 'الكويت', code: '965', iso: 'kw' },
+            { name: 'قطر', code: '974', iso: 'qa' },
+            { name: 'البحرين', code: '973', iso: 'bh' },
+            { name: 'سلطنة عُمان', code: '968', iso: 'om' },
+            { name: 'المغرب', code: '212', iso: 'ma' },
+            { name: 'الجزائر', code: '213', iso: 'dz' },
+            { name: 'تونس', code: '216', iso: 'tn' },
+            { name: 'الأردن', code: '962', iso: 'jo' },
+            { name: 'فلسطين', code: '970', iso: 'ps' },
+            { name: 'لبنان', code: '961', iso: 'lb' },
+            { name: 'العراق', code: '964', iso: 'iq' },
+            { name: 'اليمن', code: '967', iso: 'ye' },
+            { name: 'ليبيا', code: '218', iso: 'ly' },
+            { name: 'موريتانيا', code: '222', iso: 'mr' },
+            { name: 'الصومال', code: '252', iso: 'so' },
+            { name: 'جيبوتي', code: '253', iso: 'dj' },
+            { name: 'جزر القمر', code: '269', iso: 'km' },
+            { name: 'سوريا', code: '963', iso: 'sy' },
+            { name: 'جنوب السودان', code: '211', iso: 'ss' }
         ];
 
         const selectElement = document.getElementById('countryCode');
-        const phoneInput = document.getElementById('phoneInput');
+        const currentFlagSpan = document.getElementById('currentFlag');
+        const currentCodeSpan = document.getElementById('currentCode');
         
-        // 1. ملء قائمة الدول وفرزها أبجدياً
-        countryData.sort((a, b) => a.name.localeCompare(b.name, 'ar'));
-        countryData.forEach(country => {
-            const option = document.createElement('option');
-            option.value = country.code;
-            option.textContent = `${country.name} (+${country.code})`;
-            selectElement.appendChild(option);
-        });
+        // 1. ملء قائمة الدول وفرزها
+        function populateCountries() {
+            countryData.sort((a, b) => a.name.localeCompare(b.name, 'ar'));
+            
+            countryData.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country.code;
+                option.setAttribute('data-iso', country.iso);
+                option.textContent = `(${country.code}+) ${country.name}`;
+                selectElement.appendChild(option);
+            });
+            // اختيار السودان كقيمة افتراضية (للتخصيص)
+            selectElement.value = '249'; 
+            updateFlagAndCode('249');
+        }
 
-        // 2. تحديث مكان النص عند الاختيار
-        function updatePlaceholder() {
-            const selectedCode = selectElement.value;
-            if (selectedCode) {
-                phoneInput.placeholder = `الرقم المحلي (بدون أصفار إضافية) بعد مفتاح +${selectedCode}`;
+        // 2. تحديث العلم ورمز الدولة في حقل الإدخال
+        function updateFlagAndCode(code) {
+            const country = countryData.find(c => c.code === code);
+            if (country) {
+                currentCodeSpan.textContent = `+${country.code}`;
+                
+                // تحديث العلم بناءً على رمز ISO
+                currentFlagSpan.className = `flag-icon flag-icon-${country.iso}`;
+                
+                // جعل العنصر المختار في القائمة متطابقًا
+                selectElement.value = code;
             }
         }
 
-        // 3. وظيفة فتح الواتساب الرئيسية
-        function openWhatsApp() {
-            const countryCode = selectElement.value.trim();
-            const localNumber = phoneInput.value.trim().replace(/[\s+-]/g, '');
-
-            if (!countryCode) {
-                alert('الرجاء اختيار رمز الدولة أولاً.');
-                return;
+        // 3. محاولة تحديد الدولة التلقائي بناءً على IP (باستخدام خدمة مجانية)
+        async function fetchUserCountry() {
+            try {
+                // خدمة مجانية لتحديد الدولة بناءً على IP
+                const response = await fetch('https://ipapi.co/json/');
+                const data = await response.json();
+                
+                const userIso = data.country_code.toLowerCase(); // مثال: SA
+                
+                const detectedCountry = countryData.find(c => c.iso === userIso);
+                
+                if (detectedCountry) {
+                    updateFlagAndCode(detectedCountry.code);
+                    console.log(`تم اكتشاف الموقع: ${detectedCountry.name}`);
+                } else {
+                    console.log('لم يتم اكتشاف موقع جغرافي عربي/مدعوم، تم تطبيق الافتراضي (السودان).');
+                }
+            } catch (error) {
+                console.error('فشل في جلب الموقع الجغرافي التلقائي.');
             }
+        }
+
+        // 4. وظيفة فتح الواتساب الرئيسية
+        function openWhatsApp() {
+            const code = currentCodeSpan.textContent.replace('+', '');
+            const localNumber = document.getElementById('phoneInput').value.trim().replace(/[\s+-]/g, '');
+
             if (!localNumber || localNumber.length < 6) {
                 alert('الرجاء إدخال رقم هاتف محلي صالح.');
                 return;
             }
 
-            const fullNumber = countryCode + localNumber;
+            const fullNumber = code + localNumber;
             const whatsappLink = 'https://wa.me/' + fullNumber;
             
             window.open(whatsappLink, '_blank');
         }
 
-        // تنفيذ الدوال الأولية
-        updatePlaceholder();
+        // تنفيذ الدوال عند تحميل الصفحة
+        populateCountries();
+        fetchUserCountry();
     </script>
 </body>
 </html>
