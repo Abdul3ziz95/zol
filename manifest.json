@@ -3,7 +3,7 @@
   "name": "مراسل الواتساب المباشر",
   "short_name": "واتساب مباشر",
   "description": "أداة لفتح محادثة واتساب بدون حفظ الرقم مع دعم مفاتيح الدول.",
-  "start_url": "/index.html",
+  "start_url": "/zool/",  <-- التعديل الحاسم هنا
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#EAEAEA",
