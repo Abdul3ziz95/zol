@@ -164,22 +164,33 @@ function openWhatsApp() {
 }
 
 function shareApp(platform) {
-    let url = '';
     const finalLink = APP_LINK + '?source=share'; 
     const finalMessage = SHARE_MESSAGE.replace(APP_LINK, finalLink);
+
+    // 1. استخدام واجهة المشاركة الأصلية (الأفضل للهواتف)
+    if (navigator.share) {
+        navigator.share({
+            title: 'مراسل الواتساب الفوري',
+            text: finalMessage,
+            url: finalLink,
+        })
+        .then(() => console.log('تمت المشاركة بنجاح.'))
+        .catch((error) => console.log('فشلت المشاركة:', error));
+        return; 
+    }
+
+    // 2. خطة بديلة (Fallback) في حال عدم توفر واجهة المشاركة الأصلية (للحواسيب مثلاً)
+    let url = '';
     
     switch (platform) {
         case 'whatsapp':
+            // خيار احتياطي لواتساب على الويب
             url = `https://wa.me/?text=${encodeURIComponent(finalMessage)}`;
             break;
             
         case 'messenger':
-            // الحل الجديد: استخدام رابط m.me الذي يفتح التطبيق مباشرة مع الرابط
-            url = `https://m.me/?link=${encodeURIComponent(finalLink)}`;
-            break;
-            
         case 'facebook':
-            // يستخدم رابط المشاركة العامة لإنشاء منشور (أو مشاركة في قصص)
+            // خيار احتياطي لفيسبوك/ماسنجر على الويب (يفتح واجهة المشاركة العامة)
             url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(finalLink)}&quote=${encodeURIComponent(finalMessage)}`;
             break;
             
