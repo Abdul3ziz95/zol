@@ -1,4 +1,3 @@
-
 const APP_LINK = 'https://abdul3ziz95.github.io/zool/';
 const SHARE_MESSAGE = 'جربوا مراسل الواتساب السوداني الفوري! أسرع طريقة لبدء محادثة دون حفظ الرقم. الرابط: ' + APP_LINK;
 const CURRENT_VERSION = '20251226'; // الإصدار المحدث
@@ -44,7 +43,6 @@ const COUNTRY_DATA = [
 ];
 
 const codeMap = {};
-// خريطة لربط ISO Code بـ Country Data (مطلوبة للبحث العكسي)
 const isoMap = {}; 
 COUNTRY_DATA.forEach(country => {
     codeMap[country.code] = country;
@@ -98,7 +96,6 @@ function updateCountryFromCode(inputValue) {
     updateFlag(code);
 }
 
-// وظيفة التحديث الرئيسية (تضبط العلم وحقل الدولة)
 function updateFlag(code) {
     const countryInfo = codeMap[code];
 
@@ -117,32 +114,30 @@ function restoreCountryValue() {
     }
 }
 
-// ************** 2. وظيفة التحديد التلقائي الجديدة **************
+// ************** 2. وظيفة التحديد التلقائي **************
 
 async function setCountryAuto() {
     try {
-        // استخدام خدمة خارجية آمنة وموثوقة (ip-api.com)
+        // نستخدم خدمة ipapi.co الآمنة لجلب معلومات IP (يتم ذلك من متصفح المستخدم مباشرة)
         const response = await fetch('https://ipapi.co/json/');
         const data = await response.json();
         
-        // جلب رمز ISO (مثل SA، SD، US)
         const countryISO = data.country_code.toLowerCase();
         
-        // البحث عن بيانات الدولة في قائمتنا
         const countryInfo = COUNTRY_DATA.find(c => c.iso.toLowerCase() === countryISO);
 
         if (countryInfo) {
-            // تحديث الواجهة بمعلومات الدولة المكتشفة
             updateFlag(countryInfo.code);
             codeInput.value = `+${countryInfo.code}`;
-            console.log(`تم التحديد التلقائي للبلد: ${countryInfo.name} (${countryInfo.code})`);
+            // لا حاجة لطباعة رسائل في التطبيق النهائي، لكن هذا للتأكد من العمل:
+            // console.log(`تم التحديد التلقائي للبلد: ${countryInfo.name} (${countryInfo.code})`);
         } else {
-            console.warn('تم تحديد موقع IP، لكن رمز الدولة غير موجود في القائمة.');
+            // console.warn('تم تحديد موقع IP، لكن رمز الدولة غير موجود في القائمة.');
             updateFlag('249'); // العودة للوضع الافتراضي (السودان)
         }
 
     } catch (error) {
-        console.error('فشل في تحديد موقع IP التلقائي، تم تعيين الافتراضي (249).', error);
+        // console.error('فشل في تحديد موقع IP التلقائي، تم تعيين الافتراضي (249).', error);
         updateFlag('249'); // العودة للوضع الافتراضي (السودان)
     }
 }
@@ -194,7 +189,6 @@ function shareApp(platform) {
 // ************** 4. التهيئة (Initialization) **************
 
 function initializeApp() {
-    // 4.1. حل مشكلة اهتزاز الشاشة (vh unit fix)
     function setVhProperty() {
         let vh = window.innerHeight * 0.01;
         document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -203,13 +197,11 @@ function initializeApp() {
     setVhProperty();
     window.addEventListener('resize', setVhProperty);
     
-    // 4.2. ملء قائمة الدول
     populateDatalist();
     
-    // 4.3. **تنفيذ التحديد التلقائي للدولة**
+    // تنفيذ التحديد التلقائي
     setCountryAuto();
 
-    // 4.4. تهيئة PWA و Service Worker
     setupPWA();
 }
 
@@ -247,3 +239,4 @@ function setupPWA() {
 }
 
 window.addEventListener('load', initializeApp);
+
