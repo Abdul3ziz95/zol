@@ -4,15 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>مراسل الواتساب المباشر - المتميز</title>
+    <title>مراسل الواتساب المباشر - تطبيق ثابت</title>
     
-    <link rel="stylesheet" href="style.css?v=20251223">
-    
+    <link rel="stylesheet" href="style.css?v=20251224">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <link rel="manifest" href="manifest.json?v=20251223">
+    <link rel="manifest" href="manifest.json?v=20251224">
     <link rel="shortcut icon" href="whatsapp-icon.png" type="image/png">
 </head>
 <body>
@@ -29,18 +28,35 @@
         <div class="main-form">
             
             <div class="input-group">
-                <label>اختر الدولة أو اكتب رمزها:</label>
-                <div class="country-input-display" id="countryDisplayButton">
-                    <span id="currentFlag" class="flag-icon flag-icon-sd"></span>
-                    <span id="countryNameText">السودان</span>
-                    <span id="codeInput" data-code="249">+249</span>
-                    <i class="fas fa-chevron-down country-icon-down"></i>
-                </div>
+                <label for="countryInput">اختر الدولة أو ابحث عنها:</label>
+                <input 
+                    list="country-options" 
+                    id="countryInput" 
+                    name="country-input" 
+                    placeholder="ابحث عن الدولة (مثال: السودان (+249))" 
+                    value="السودان (+249)"
+                    onchange="updateCodeFromCountry(this.value)"
+                    onclick="this.value = '';"
+                    onblur="restoreCountryValue()"
+                >
+                
+                <datalist id="country-options">
+                    </datalist>
             </div>
 
-            <div class="input-group">
-                <label for="phoneInput">الرقم المحلي (بدون الصفر):</label>
-                <input type="tel" id="phoneInput" placeholder="أدخل الرقم المحلي هنا (مثال: 912345678)" inputmode="numeric">
+            <div class="phone-input-container">
+                <div class="country-code-wrapper">
+                    <span id="currentFlag" class="flag-icon flag-icon-sd"></span>
+                    <input 
+                        type="tel" 
+                        id="codeInput" 
+                        value="+249" 
+                        inputmode="numeric" 
+                        oninput="updateCountryFromCode(this.value)"
+                        placeholder="رمز الدولة"
+                    >
+                </div>
+                <input type="tel" id="phoneInput" placeholder="أدخل الرقم المحلي (بدون الرمز)" inputmode="numeric">
             </div>
 
             <div class="input-group">
@@ -49,18 +65,18 @@
             </div>
         </div>
 
-        <button id="whatsappButton">
+        <button id="whatsappButton" onclick="openWhatsApp()">
             <img src="whatsapp-icon.png" alt="WhatsApp Icon" class="icon"> بدء المحادثة الآن
         </button>
 
-        <p class="note prominent-note">التطبيق لا يحفظ أو يشارك أي بيانات خاصة بك.</p>
+        <p class="note prominent-note">يرجى التأكد من صحة رمز الدولة المدخل.</p>
 
         <div class="share-section">
             <p class="share-title">شارك التطبيق مع أصدقائك:</p>
             <div class="share-icons">
-                <button class="share-btn facebook"><i class="fab fa-facebook-f"></i></button>
-                <button class="share-btn messenger"><i class="fab fa-facebook-messenger"></i></button>
-                <button class="share-btn whatsapp-share"><i class="fab fa-whatsapp"></i></button>
+                <button class="share-btn facebook" onclick="shareApp('facebook')"><i class="fab fa-facebook-f"></i></button>
+                <button class="share-btn messenger" onclick="shareApp('messenger')"><i class="fab fa-facebook-messenger"></i></button>
+                <button class="share-btn whatsapp-share" onclick="shareApp('whatsapp')"><i class="fab fa-whatsapp"></i></button>
             </div>
         </div>
         
@@ -71,19 +87,7 @@
         
     </div>
     
-    <div id="countryModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">اختر رمز الدولة</h2>
-                <span class="close-button" id="closeModal">&times;</span>
-            </div>
-            <input type="text" id="countrySearch" placeholder="ابحث باسم الدولة أو الرمز (مثال: السودان أو 249)">
-            <div id="countryList" class="country-list-scroll">
-                </div>
-        </div>
-    </div>
-    
-    <script src="script.js?v=20251223"></script>
+    <script src="script.js?v=20251224"></script>
     
 </body>
 </html>
