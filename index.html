@@ -3,16 +3,16 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مراسل الواتساب المباشر - قالب ثابت</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>مراسل الواتساب المباشر - المتميز</title>
     
-    <link rel="stylesheet" href="style.css?v=20251221">
+    <link rel="stylesheet" href="style.css?v=20251223">
     
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <link rel="manifest" href="manifest.json?v=20251221">
+    <link rel="manifest" href="manifest.json?v=20251223">
     <link rel="shortcut icon" href="whatsapp-icon.png" type="image/png">
 </head>
 <body>
@@ -20,101 +20,47 @@
     <div class="page-wrapper" id="pageWrapper"> 
         
         <h1 class="app-heading">مراسل الواتساب المباشر</h1>
-        <p class="description">أسرع طريقة للتواصل، أدخل الرقم وابدأ المحادثة فوراً.</p>
+        <p class="description">أسرع وأذكى طريقة للتواصل مباشرة عبر واتساب.</p>
 
         <button id="installButton" class="install-prompt-button" style="display: none;">
             📲 تثبيت التطبيق
         </button>
         
-        <div class="input-group">
-            <label for="countryInput">اختر الدولة أو ابحث عنها:</label>
-            <input 
-                list="country-options" 
-                id="countryInput" 
-                name="country-input" 
-                placeholder="ابحث عن الدولة (مثال: السودان (+249))" 
-                value="السودان (+249)"
-                onchange="updateCodeFromCountry(this.value)"
-            >
+        <div class="main-form">
             
-            <datalist id="country-options">
-                <option value="السودان (+249)">
-                <option value="المملكة العربية السعودية (+966)">
-                <option value="الإمارات العربية المتحدة (+971)">
-                <option value="مصر (+20)">
-                <option value="الولايات المتحدة الأمريكية (+1)">
-                <option value="المملكة المتحدة (+44)">
-                <option value="الجزائر (+213)"> 
-                <option value="الأردن (+962)"> 
-                <option value="الكويت (+965)"> 
-                <option value="قطر (+974)"> 
-                <option value="عُمان (+968)">
-                <option value="اليمن (+967)">
-                <option value="ليبيا (+218)">
-                <option value="المغرب (+212)">
-                <option value="فلسطين (+970)">
-                <option value="العراق (+964)">
-                <option value="سوريا (+963)">
-                <option value="لبنان (+961)">
-                <option value="تونس (+216)">
-                <option value="أفغانستان (+93)"> <option value="ألبانيا (+355)">
-                <option value="أندورا (+376)"> <option value="أنغولا (+244)">
-                <option value="الأرجنتين (+54)"> <option value="أرمينيا (+374)">
-                <option value="أستراليا (+61)"> <option value="النمسا (+43)">
-                <option value="أذربيجان (+994)"> <option value="البحرين (+973)">
-                <option value="بنغلاديش (+880)"> <option value="بلجيكا (+32)">
-                <option value="البرازيل (+55)"> <option value="بلغاريا (+359)">
-                <option value="كندا (+1)"> <option value="تشيلي (+56)">
-                <option value="الصين (+86)"> <option value="كولومبيا (+57)">
-                <option value="كرواتيا (+385)"> <option value="كوبا (+53)">
-                <option value="قبرص (+357)"> <option value="الدنمارك (+45)">
-                <option value="الإكوادور (+593)"> <option value="إثيوبيا (+251)">
-                <option value="فنلندا (+358)"> <option value="فرنسا (+33)">
-                <option value="ألمانيا (+49)"> <option value="اليونان (+30)">
-                <option value="الهند (+91)"> <option value="إندونيسيا (+62)">
-                <option value="أيرلندا (+353)"> <option value="إسرائيل (+972)">
-                <option value="إيطاليا (+39)"> <option value="اليابان (+81)">
-                <option value="كينيا (+254)"> <option value="كوريا الجنوبية (+82)">
-                <option value="المكسيك (+52)"> <option value="نيجيريا (+234)">
-                <option value="النرويج (+47)"> <option value="باكستان (+92)">
-                <option value="بيرو (+51)"> <option value="الفلبين (+63)">
-                <option value="بولندا (+48)"> <option value="البرتغال (+351)">
-                <option value="روسيا (+7)"> <option value="سنغافورة (+65)">
-                <option value="الصومال (+252)"> <option value="جنوب أفريقيا (+27)">
-                <option value="إسبانيا (+34)"> <option value="السويد (+46)">
-                <option value="سويسرا (+41)"> <option value="تركيا (+90)">
-                <option value="أوكرانيا (+380)"> <option value="فنزويلا (+58)">
-                <option value="زيمبابوي (+263)">
-            </datalist>
-        </div>
-
-        <div class="phone-input-container">
-            <div class="country-code-wrapper">
-                <span id="currentFlag" class="flag-icon flag-icon-sd"></span>
-                <input 
-                    type="tel" 
-                    id="codeInput" 
-                    value="+249" 
-                    inputmode="numeric" 
-                    oninput="updateCountryFromCode(this.value)"
-                    placeholder="رمز الدولة"
-                >
+            <div class="input-group">
+                <label>اختر الدولة أو اكتب رمزها:</label>
+                <div class="country-input-display" id="countryDisplayButton">
+                    <span id="currentFlag" class="flag-icon flag-icon-sd"></span>
+                    <span id="countryNameText">السودان</span>
+                    <span id="codeInput" data-code="249">+249</span>
+                    <i class="fas fa-chevron-down country-icon-down"></i>
+                </div>
             </div>
-            <input type="tel" id="phoneInput" placeholder="أدخل الرقم المحلي (بدون الرمز)" inputmode="numeric">
+
+            <div class="input-group">
+                <label for="phoneInput">الرقم المحلي (بدون الصفر):</label>
+                <input type="tel" id="phoneInput" placeholder="أدخل الرقم المحلي هنا (مثال: 912345678)" inputmode="numeric">
+            </div>
+
+            <div class="input-group">
+                <label for="messageInput">رسالة مُعدة مسبقاً (اختياري):</label>
+                <textarea id="messageInput" rows="2" placeholder="أدخل رسالة الترحيب التي ستظهر تلقائياً في الواتساب..."></textarea>
+            </div>
         </div>
 
-        <button id="whatsappButton" onclick="openWhatsApp()">
+        <button id="whatsappButton">
             <img src="whatsapp-icon.png" alt="WhatsApp Icon" class="icon"> بدء المحادثة الآن
         </button>
 
-        <p class="note prominent-note">يرجى التأكد من صحة رمز الدولة المدخل.</p>
+        <p class="note prominent-note">التطبيق لا يحفظ أو يشارك أي بيانات خاصة بك.</p>
 
         <div class="share-section">
             <p class="share-title">شارك التطبيق مع أصدقائك:</p>
             <div class="share-icons">
-                <button class="share-btn facebook" onclick="shareApp('facebook')"><i class="fab fa-facebook-f"></i></button>
-                <button class="share-btn messenger" onclick="shareApp('messenger')"><i class="fab fa-facebook-messenger"></i></button>
-                <button class="share-btn whatsapp" onclick="shareApp('whatsapp')"><i class="fab fa-whatsapp"></i></button>
+                <button class="share-btn facebook"><i class="fab fa-facebook-f"></i></button>
+                <button class="share-btn messenger"><i class="fab fa-facebook-messenger"></i></button>
+                <button class="share-btn whatsapp-share"><i class="fab fa-whatsapp"></i></button>
             </div>
         </div>
         
@@ -125,213 +71,19 @@
         
     </div>
     
-    <script>
-        const APP_LINK = 'https://abdul3ziz95.github.io/zool/';
-        const SHARE_MESSAGE = 'جربوا مراسل الواتساب السوداني الفوري! أسرع طريقة لبدء محادثة دون حفظ الرقم. الرابط: ' + APP_LINK;
-
-        const codeInput = document.getElementById('codeInput'); 
-        const phoneInput = document.getElementById('phoneInput'); 
-        const countryInput = document.getElementById('countryInput');
-        const currentFlagSpan = document.getElementById('currentFlag');
-        const installButton = document.getElementById('installButton');
-        
-        // خريطة مفاتيح الدول لربط الرمز بالعلم والاسم
-        const countryMap = {
-            '249': { name: 'السودان', iso: 'sd' }, '966': { name: 'المملكة العربية السعودية', iso: 'sa' },
-            '971': { name: 'الإمارات العربية المتحدة', iso: 'ae' }, '20': { name: 'مصر', iso: 'eg' },
-            '1': { name: 'الولايات المتحدة الأمريكية', iso: 'us' }, '44': { name: 'المملكة المتحدة', iso: 'gb' },
-            '213': { name: 'الجزائر', iso: 'dz' }, '962': { name: 'الأردن', iso: 'jo' },
-            '965': { name: 'الكويت', iso: 'kw' }, '974': { name: 'قطر', iso: 'qa' },
-            '968': { name: 'عُمان', iso: 'om' }, '967': { name: 'اليمن', iso: 'ye' },
-            '218': { name: 'ليبيا', iso: 'ly' }, '212': { name: 'المغرب', iso: 'ma' },
-            '970': { name: 'فلسطين', iso: 'ps' }, '964': { name: 'العراق', iso: 'iq' },
-            '963': { name: 'سوريا', iso: 'sy' }, '961': { name: 'لبنان', iso: 'lb' },
-            '216': { name: 'تونس', iso: 'tn' }, '93': { name: 'أفغانستان', iso: 'af' },
-            '355': { name: 'ألبانيا', iso: 'al' }, '376': { name: 'أندورا', iso: 'ad' },
-            '244': { name: 'أنغولا', iso: 'ao' }, '54': { name: 'الأرجنتين', iso: 'ar' },
-            '374': { name: 'أرمينيا', iso: 'am' }, '61': { name: 'أستراليا', iso: 'au' },
-            '43': { name: 'النمسا', iso: 'at' }, '994': { name: 'أذربيجان', iso: 'az' },
-            '973': { name: 'البحرين', iso: 'bh' }, '880': { name: 'بنغلاديش', iso: 'bd' },
-            '32': { name: 'بلجيكا', iso: 'be' }, '55': { name: 'البرازيل', iso: 'br' },
-            '359': { name: 'بلغاريا', iso: 'bg' }, '56': { name: 'تشيلي', iso: 'cl' },
-            '86': { name: 'الصين', iso: 'cn' }, '57': { name: 'كولومبيا', iso: 'co' },
-            '385': { name: 'كرواتيا', iso: 'hr' }, '53': { name: 'كوبا', iso: 'cu' },
-            '357': { name: 'قبرص', iso: 'cy' }, '45': { name: 'الدنمارك', iso: 'dk' },
-            '593': { name: 'الإكوادور', iso: 'ec' }, '251': { name: 'إثيوبيا', iso: 'et' },
-            '358': { name: 'فنلندا', iso: 'fi' }, '33': { name: 'فرنسا', iso: 'fr' },
-            '49': { name: 'ألمانيا', iso: 'de' }, '30': { name: 'اليونان', iso: 'gr' },
-            '91': { name: 'الهند', iso: 'in' }, '62': { name: 'إندونيسيا', iso: 'id' },
-            '353': { name: 'أيرلندا', iso: 'ie' }, '972': { name: 'إسرائيل', iso: 'il' },
-            '39': { name: 'إيطاليا', iso: 'it' }, '81': { name: 'اليابان', iso: 'jp' },
-            '254': { name: 'كينيا', iso: 'ke' }, '82': { name: 'كوريا الجنوبية', iso: 'kr' },
-            '52': { name: 'المكسيك', iso: 'mx' }, '234': { name: 'نيجيريا', iso: 'ng' },
-            '47': { name: 'النرويج', iso: 'no' }, '92': { name: 'باكستان', iso: 'pk' },
-            '51': { name: 'بيرو', iso: 'pe' }, '63': { name: 'الفلبين', iso: 'ph' },
-            '48': { name: 'بولندا', iso: 'pl' }, '351': { name: 'البرتغال', iso: 'pt' },
-            '7': { name: 'روسيا', iso: 'ru' }, '65': { name: 'سنغافورة', iso: 'sg' },
-            '252': { name: 'الصومال', iso: 'so' }, '27': { name: 'جنوب أفريقيا', iso: 'za' },
-            '34': { name: 'إسبانيا', iso: 'es' }, '46': { name: 'السويد', iso: 'se' },
-            '41': { name: 'سويسرا', iso: 'ch' }, '90': { name: 'تركيا', iso: 'tr' },
-            '380': { name: 'أوكرانيا', iso: 'ua' }, '58': { name: 'فنزويلا', iso: 've' },
-            '263': { name: 'زيمبابوي', iso: 'zw' }
-        };
-        // خريطة معكوسة لتسهيل البحث بالرمز
-        const codeMap = {};
-        for (const code in countryMap) {
-            codeMap[code] = countryMap[code];
-        }
-
-
-        // ************** 1. وظائف التحكم في الدولة والرمز **************
-
-        // وظيفة تستدعى عند اختيار الدولة من القائمة (datalist)
-        function updateCodeFromCountry(selectedValue) {
-            const match = selectedValue.match(/\((\+)(\d+)\)/);
-            const code = match ? match[2] : '';
-            
-            if (code) {
-                codeInput.value = `+${code}`;
-                updateFlagAndName(code);
-            } else {
-                // إذا كتب المستخدم نصاً غير موجود في القائمة، نظف الحقل وأبق على الرمز
-                updateFlagAndName(codeInput.value.replace('+', '').trim());
-            }
-        }
-
-        // وظيفة تستدعى عند كتابة الرمز يدوياً
-        function updateCountryFromCode(inputValue) {
-            const code = inputValue.replace('+', '').trim(); 
-            
-            if (code && code.length >= 1) {
-                updateFlagAndName(code);
-            } else {
-                // العودة إلى السودان إذا حُذف الرمز
-                updateFlagAndName('249');
-            }
-        }
-
-        // وظيفة التحديث الرئيسية (تضبط العلم وحقل الدولة)
-        function updateFlagAndName(code) {
-            const countryInfo = codeMap[code];
-
-            if (countryInfo) {
-                // تحديث العلم وحقل الرمز
-                currentFlagSpan.className = `flag-icon flag-icon-${countryInfo.iso.toLowerCase()}`;
-                codeInput.value = `+${code}`;
-                
-                // تحديث حقل الدولة ليعكس الاختيار
-                countryInput.value = `${countryInfo.name} (+${code})`;
-            } else {
-                 // إذا لم يتم العثور على الرمز
-                currentFlagSpan.className = `flag-icon flag-icon-un`; // علم افتراضي
-                
-                // إذا كان الإدخال يدوياً، احتفظ به لكن أزل الإشارة
-                if (!codeInput.value.startsWith('+')) {
-                     codeInput.value = `+${code}`;
-                }
-            }
-        }
-        
-        // عند التحميل، تأكد من تحديث الواجهة بناءً على القيمة الافتراضية
-        window.addEventListener('load', () => {
-             updateFlagAndName(codeInput.value.replace('+', '').trim());
-             initializeApp();
-        });
-
-
-        // ************** 2. وظائف الواجهة والأداء (PWA & Fixes) **************
-        
-        function openWhatsApp() {
-            const code = codeInput.value.replace('+', '').trim(); 
-            const localNumber = phoneInput.value.trim().replace(/[\s+-]/g, '');
-
-            if (!code || code.length < 1 || !localNumber || localNumber.length < 6) {
-                alert('الرجاء إدخال رمز الدولة ورقم هاتف محلي صالح (لا يقل عن 6 أرقام).');
-                return;
-            }
-
-            const fullNumber = code + localNumber;
-            const whatsappLink = 'https://wa.me/' + fullNumber;
-            window.open(whatsappLink, '_blank');
-        }
-
-        function shareApp(platform) {
-            // (كود المشاركة بدون تغيير)
-            let url = '';
-            const finalLink = APP_LINK + '?source=share'; 
-            const finalMessage = SHARE_MESSAGE.replace(APP_LINK, finalLink);
-            switch (platform) {
-                case 'whatsapp':
-                    url = `https://wa.me/?text=${encodeURIComponent(finalMessage)}`;
-                    break;
-                case 'messenger':
-                    url = `https://www.facebook.com/dialog/send?link=${encodeURIComponent(finalLink)}&app_id=1234567890&redirect_uri=${encodeURIComponent(finalLink)}`;
-                    break;
-                case 'facebook':
-                    url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(finalLink)}`;
-                    break;
-                default:
-                    return;
-            }
-            window.open(url, '_blank', 'width=600,height=400');
-        }
-        
-        function initializeApp() {
-            // ** الحل النهائي لمنع اهتزاز الشاشة على الجوال **
-            function setVhProperty() {
-                let vh = window.innerHeight * 0.01;
-                document.documentElement.style.setProperty('--vh', `${vh}px`);
-                document.getElementById('pageWrapper').style.transform = 'translateZ(0)';
-            }
-            setVhProperty();
-            window.addEventListener('resize', setVhProperty);
-            
-            // تهيئة PWA (لضمان التحديث وإلغاء الكاش القديم)
-            setupPWA();
-        }
-        
-        let deferredPrompt; 
-        function setupPWA() {
-             if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.getRegistrations().then(function(registrations) {
-                    for(let registration of registrations) {
-                        if(registration.scope.includes('/zool/')) {
-                           registration.unregister().catch((err) => { console.error('Failed to unregister SW:', err); });
-                        }
-                    }
-                });
-                // تسجيل Service Worker الجديد
-                 navigator.serviceWorker.register('/zool/sw.js?v=20251221', { scope: '/zool/' }) 
-                    .catch((err) => { console.log('SW registration failed (new version):', err); });
-            }
-            
-            window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e; 
-                installButton.style.display = 'block'; 
-            });
-
-            installButton.addEventListener('click', () => {
-                if (deferredPrompt) {
-                    deferredPrompt.prompt();
-                    deferredPrompt.userChoice.then((choiceResult) => {
-                        if (choiceResult.outcome === 'accepted') {
-                            installButton.style.display = 'none'; 
-                        }
-                        deferredPrompt = null; 
-                    });
-                } else {
-                    alert('لتثبيت التطبيق: افتح قائمة المتصفح (⋮) واختر "التثبيت".');
-                }
-            });
-        }
-
-        // وضع الدوال في النطاق العام
-        window.openWhatsApp = openWhatsApp;
-        window.shareApp = shareApp;
-        window.updateCodeFromCountry = updateCodeFromCountry;
-        window.updateCountryFromCode = updateCountryFromCode;
-        
-    </script>
+    <div id="countryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">اختر رمز الدولة</h2>
+                <span class="close-button" id="closeModal">&times;</span>
+            </div>
+            <input type="text" id="countrySearch" placeholder="ابحث باسم الدولة أو الرمز (مثال: السودان أو 249)">
+            <div id="countryList" class="country-list-scroll">
+                </div>
+        </div>
+    </div>
+    
+    <script src="script.js?v=20251223"></script>
+    
 </body>
 </html>
