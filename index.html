@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -47,14 +48,14 @@
             <div class="share-section">
                 <p class="share-title">شارك التطبيق مع أصدقائك:</p>
                 <div class="share-icons">
-                    <button class="share-btn whatsapp" onclick="shareApp('whatsapp')">
-                        <i class="fab fa-whatsapp"></i>
+                    <button class="share-btn facebook" onclick="shareApp('facebook')">
+                        <i class="fab fa-facebook-f"></i>
                     </button>
                     <button class="share-btn messenger" onclick="shareApp('messenger')">
                         <i class="fab fa-facebook-messenger"></i>
                     </button>
-                    <button class="share-btn facebook" onclick="shareApp('facebook')">
-                        <i class="fab fa-facebook-f"></i>
+                    <button class="share-btn whatsapp" onclick="shareApp('whatsapp')">
+                        <i class="fab fa-whatsapp"></i>
                     </button>
                 </div>
             </div>
@@ -80,7 +81,6 @@
                     url = `https://wa.me/?text=${encodeURIComponent(SHARE_MESSAGE)}`;
                     break;
                 case 'messenger':
-                    // **إصلاح Messenger**
                     const encodedLink = encodeURIComponent(APP_LINK);
                     url = `fb-messenger://share?link=${encodedLink}&text=${encodeURIComponent(SHARE_MESSAGE)}`;
                     break;
@@ -257,11 +257,7 @@
             
             if (country) {
                 updateFlagAndCode(country.code, country.iso);
-                // تحديث حقل البحث لعرض اسم الدولة
-                const countryOption = `${country.name} (+${country.code})`;
-                // لا نغير قيمة حقل البحث هنا لتجنب حلقة مفرغة، بل نعتمد على اختيار المستخدم
             } else {
-                // في حالة عدم تطابق الكود، إظهار علم افتراضي
                 currentFlagSpan.className = `flag-icon`; 
             }
         }
@@ -345,4 +341,3 @@
     </script>
 </body>
 </html>
-
