@@ -1,37 +1,51 @@
-/* ------------------ Base & Layout ------------------ */
+    }
+}
+
+/* ------------------ Base & Layout (شاشة كاملة وتأثير 3D) ------------------ */
 body {
     font-family: 'Cairo', sans-serif;
     direction: rtl;
     text-align: right;
-    background-color: #f0f2f5; 
+    background: linear-gradient(135deg, #e6fff3 0%, #f0f2f5 100%); /* خلفية متدرجة حديثة */
     color: #333;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* إعداد الصفحة للـ Flexbox لتثبيت التذييل */
+    overflow-x: hidden; 
+    
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* يبدأ المحتوى من الأعلى */
+    align-items: center; /* توسيط رأسي للمحتوى */
     min-height: 100vh;
 }
 
 .page-wrapper {
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
     width: 100%;
-    align-items: center; /* توسيط المحتوى داخل الحاوية */
+    align-items: center; 
+    padding: 0; /* تم إزالة التباعد هنا */
 }
 
+/* ** تأثير البطاقة ثلاثية الأبعاد (Container) ** */
 .container {
-    width: 100%;
-    max-width: 420px;
+    width: 90%; /* نسبة مئوية لملء الشاشة على الجوال */
+    max-width: 400px; 
     background-color: #ffffff;
-    padding: 30px 25px; /* تباعد متوازن */
-    border-radius: 16px; 
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* ظل ناعم */
-    margin: 30px 0 10px 0; /* مسافة من الأعلى وأقل من الأسفل */
-    flex-grow: 1; /* للسماح للحاوية بأن تنمو */
+    padding: 30px 25px; 
+    border-radius: 18px; 
+    
+    /* ظل عميق يحاكي الـ 3D */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    
+    /* تأثير خفيف عند التحريك (3D Tilt Effect) - إختياري */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    margin: 20px auto; 
+}
+.container:hover {
+    /* تحريك خفيف عند التفاعل ليعطي شعور العمق */
+    transform: translateY(-5px); 
 }
 
 .app-heading {
@@ -47,6 +61,7 @@ body {
     color: #777;
     margin-bottom: 30px;
     font-size: 0.9rem;
+    line-height: 1.6;
 }
 
 /* ------------------ عناصر النموذج (Inputs & Selects) ------------------ */
@@ -63,7 +78,7 @@ body {
     font-weight: 600;
 }
 
-/* التنسيق العام للقائمة المنسدلة */
+/* القائمة المنسدلة */
 select {
     width: 100%;
     padding: 12px 15px;
@@ -76,24 +91,25 @@ select {
     background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="gray"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>');
     background-repeat: no-repeat;
     background-position: left 15px center;
-    transition: border-color 0.3s, box-shadow 0.2s;
+    transition: all 0.2s;
 }
 
 select:focus,
 #phoneInput:focus {
     border-color: #25D366;
     outline: none;
-    box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.15);
+    box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.25); /* ظل تركيز أقوى وأوضح */
 }
 
 /* ------------------ حقول إدخال الهاتف ------------------ */
 
 .phone-input-container {
     display: flex;
-    gap: 8px; /* تقليل الفراغ بين الحقلين */
+    gap: 8px; 
     margin-bottom: 25px;
 }
 
+/* حاوية الكود والدولة */
 .country-code-wrapper {
     display: flex;
     align-items: center;
@@ -103,12 +119,12 @@ select:focus,
     padding: 0 8px; 
     flex-basis: 110px; 
     flex-shrink: 0;
-    transition: border-color 0.3s;
+    transition: all 0.2s;
 }
 
 .country-code-wrapper:focus-within { 
     border-color: #25D366;
-    box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.15);
+    box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.25);
 }
 
 #codeInput {
@@ -128,21 +144,20 @@ select:focus,
     border: 1px solid #e0e0e0;
     border-radius: 10px;
     font-size: 1rem;
-    transition: border-color 0.3s;
+    transition: all 0.2s;
 }
 
 .flag-icon {
     font-size: 1.5rem;
     margin-left: 8px;
-    min-width: 24px; /* لضمان عدم اهتزاز التنسيق عند ظهور/اختفاء العلم */
+    min-width: 24px;
 }
 
-/* ------------------ الأزرار ------------------ */
+/* ------------------ الأزرار التفاعلية ------------------ */
 
 .install-prompt-button {
-    /* (التنسيق في الأعلى لم يتغير) */
     width: 100%;
-    padding: 12px;
+    padding: 14px;
     margin-bottom: 25px;
     background-color: #4A90E2; 
     color: white;
@@ -150,20 +165,28 @@ select:focus,
     border-radius: 10px;
     font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s, box-shadow 0.2s;
+    box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+    transition: all 0.2s;
 }
+.install-prompt-button:hover {
+    background-color: #3A7CC7;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(74, 144, 226, 0.5);
+}
+
 
 button:not(.install-prompt-button) {
     width: 100%;
-    padding: 14px;
+    padding: 16px; /* زر أكبر قليلاً وأكثر وضوحاً */
     background-color: #25D366;
     color: white;
     border: none;
     border-radius: 10px;
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     font-weight: 700;
     cursor: pointer;
-    transition: background-color 0.3s, box-shadow 0.2s;
+    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); /* ظل عميق للزر */
+    transition: all 0.2s;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -171,7 +194,8 @@ button:not(.install-prompt-button) {
 
 button:not(.install-prompt-button):hover {
     background-color: #1FAF59;
-    box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+    transform: translateY(-2px); /* تأثير 3D خفيف */
+    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.5);
 }
 
 .icon {
@@ -187,13 +211,13 @@ button:not(.install-prompt-button):hover {
     margin-top: 15px;
 }
 
-/* ------------------ التذييل (Footer Fix) ------------------ */
+/* ------------------ التذييل (Footer) ------------------ */
 
 .app-footer {
     width: 100%;
-    max-width: 420px; /* ليتوافق مع عرض الحاوية */
+    max-width: 400px; 
     text-align: center;
-    margin: 20px 0; /* مسافة من أعلى ومن أسفل الشاشة */
+    margin: 15px 0 20px 0; 
     padding: 10px 0;
     font-size: 0.75rem;
     color: #aaa;
@@ -220,4 +244,3 @@ button:not(.install-prompt-button):hover {
         padding: 40px;
     }
 }
-
