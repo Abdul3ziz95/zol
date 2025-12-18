@@ -1,70 +1,58 @@
 
-/* ------------------ Base, Font & Global Reset ------------------ */
+/* ------------------ Base & Layout (شاشة ثابتة 100%، بدون تمرير) ------------------ */
 
 * {
     box-sizing: border-box;
-    /* تحسين سرعة الأداء: استخدام translateZ لتحفيز تسريع الأجهزة */
+    /* تسريع الأجهزة: يجعل التحريك والانتقالات سلسة */
     will-change: transform; 
 }
 
 html {
-    /* المتغير --vh يُحسب بواسطة JavaScript لمنع اهتزاز شاشة الجوال */
+    /* متغير الارتفاع الذي يضبطه JavaScript لحل مشكلة اهتزاز شاشة الموبايل */
     --vh: 100vh;
     height: 100%;
-    scroll-behavior: smooth;
 }
 
 body {
-    /* تثبيت ارتفاع وعرض المتصفح بالكامل ومنع التمرير على مستوى الصفحة */
     height: 100%; 
-    height: calc(var(--vh) * 100); 
+    height: calc(var(--vh) * 100); /* استخدام الارتفاع الثابت */
     width: 100%;
     margin: 0;
     padding: 0;
-    overflow: hidden; /* يمنع تمرير الخلفية */
+    overflow: hidden; /* منع التمرير على مستوى الصفحة */
     position: fixed; 
     top: 0;
     left: 0;
     
-    /* الخصائص الجمالية */
     font-family: 'Cairo', sans-serif;
     direction: rtl;
     text-align: right;
+    /* خلفية عصرية ناعمة */
     background: linear-gradient(135deg, #e6fff3 0%, #f0f2f5 100%); 
     color: #333;
     
-    /* توسيط المحتوى بالكامل */
+    /* توسيط البطاقة في المنتصف الأفقي */
     display: flex;
     justify-content: center; 
-    align-items: flex-start; /* يبدأ المحتوى من الأعلى قليلاً */
+    align-items: flex-start; 
 }
-
-/* لمنع تمرير الخلفية عند فتح الـ Modal */
-body.modal-open {
-    overflow: hidden;
-}
-
-/* ------------------ Layout & Container ------------------ */
 
 .page-wrapper {
     width: 100%;
-    max-width: 480px; /* زيادة عرض البطاقة قليلاً لأناقة أفضل */
-    
+    max-width: 480px; 
     height: 100%; 
     max-height: 100%; 
-    
     padding: 30px 20px; 
-    
     display: flex;
     flex-direction: column;
-    
-    /* السماح بالتمرير الداخلي فقط داخل wrapper */
+    /* السماح بالتمرير الداخلي فقط داخل الـ wrapper */
     overflow-y: auto; 
     overflow-x: hidden;
     
-    /* إخفاء شريط التمرير الداخلي */
+    /* إخفاء شريط التمرير */
     -ms-overflow-style: none;
     scrollbar-width: none;
+    transform: translateZ(0); /* تسريع الأجهزة */
 }
 .page-wrapper::-webkit-scrollbar { display: none; }
 
@@ -76,51 +64,35 @@ body.modal-open {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.03); 
     margin-bottom: 20px; 
     flex-shrink: 0; 
-    /* تحسين الأداء البصري */
-    transform: translateZ(0); 
 }
 
-/* ------------------ Typography & Design Elements ------------------ */
+/* ------------------ Typography ------------------ */
 
-.app-heading { 
-    color: #075E54; 
-    text-align: center; 
-    margin-bottom: 5px; 
-    font-weight: 800; /* أثقل */
-    font-size: clamp(1.8rem, 5vw, 2.2rem); /* حجم خط مرن */
-}
-.description { 
-    text-align: center; 
-    color: #777; 
-    margin-bottom: 30px; 
-    font-size: 0.95rem;
-}
+.app-heading { color: #075E54; text-align: center; margin-bottom: 5px; font-weight: 800; font-size: clamp(1.8rem, 5vw, 2.2rem); }
+.description { text-align: center; color: #777; margin-bottom: 30px; font-size: 0.95rem;}
 
 /* ------------------ Form Elements & Inputs ------------------ */
 
 .input-group { margin-bottom: 20px; }
 .input-group label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: #555; font-weight: 600; }
 
-/* حقل عرض الدولة (للنقر وفتح الـ Modal) */
-.country-display { 
+/* تنسيق حقل الإدخال المشترك (للدولة والرقم) */
+#countryInput, #phoneInput { 
     width: 100%; 
-    padding: 14px 15px;
-    border: 2px solid #ddd; /* زيادة سمك الحد */
+    padding: 14px 15px; 
+    border: 2px solid #ddd; 
     border-radius: 12px; 
-    font-size: 1rem; 
-    background-color: #f7f7f7; 
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    font-size: 1.1rem; 
     transition: all 0.2s;
-    user-select: none; /* لمنع تحديد النص */
+    background-color: #f7f7f7;
+    color: #333;
 }
-.country-display:hover { background-color: #f0f0f0; }
-.country-display:active { border-color: #25D366; }
-.country-dropdown-icon { color: #888; transition: transform 0.2s; }
-#selectedCountryName { font-weight: 700; color: #222; }
-
+#countryInput:focus, #phoneInput:focus { 
+    border-color: #25D366; 
+    outline: none; 
+    background-color: #ffffff;
+    box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.2); 
+}
 
 .phone-input-container { display: flex; gap: 10px; margin-bottom: 25px;}
 
@@ -143,43 +115,17 @@ body.modal-open {
     font-size: 1.1rem; 
     font-weight: 800; 
     color: #075E54;
-}
-#phoneInput { 
-    flex-grow: 1; 
-    padding: 14px 15px; 
-    border: 2px solid #ddd; 
-    border-radius: 12px; 
-    font-size: 1.1rem; 
-    transition: all 0.2s;
-}
-#phoneInput:focus { 
-    border-color: #25D366; 
-    outline: none; 
-    box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.2); 
+    cursor: default; 
 }
 .flag-icon { font-size: 1.5rem; margin-left: 10px; min-width: 24px;}
-
+#phoneInput { flex-grow: 1; background-color: #ffffff; }
 
 /* ------------------ Buttons & Notes ------------------ */
 
 .install-prompt-button { 
-    width: 100%; 
-    padding: 15px; 
-    margin-bottom: 25px; 
-    background-color: #4A90E2; 
-    color: white; 
-    border: none; 
-    border-radius: 12px; 
-    font-size: 1.0rem; 
-    font-weight: 700;
-    cursor: pointer; 
-    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4); 
-    transition: all 0.2s;
+    width: 100%; padding: 15px; margin-bottom: 25px; background-color: #4A90E2; color: white; border: none; border-radius: 12px; font-size: 1.0rem; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(74, 144, 226, 0.4); transition: all 0.2s; 
 }
-.install-prompt-button:hover { 
-    background-color: #3A7CC7; 
-    transform: translateY(-2px) scale(1.01); 
-}
+.install-prompt-button:hover { background-color: #3A7CC7; transform: translateY(-2px) scale(1.01); }
 
 #whatsappButton { 
     width: 100%; 
@@ -197,207 +143,26 @@ body.modal-open {
     align-items: center; 
     justify-content: center;
 }
-#whatsappButton:hover { 
-    background-color: #1FAF59; 
-    transform: translateY(-2px) scale(1.01); 
-}
+#whatsappButton:hover { background-color: #1FAF59; transform: translateY(-2px) scale(1.01); }
 .icon { width: 22px; height: 22px; margin-left: 10px; filter: drop-shadow(0 0 1px rgba(0,0,0,0.2)); }
 
-.prominent-note { 
-    font-size: 0.9rem; 
-    font-weight: 700; 
-    color: #FF5722; /* لون برتقالي/أحمر للتنبيه */
-    padding: 5px 0; 
-    text-align: center; 
-    margin-top: 15px;
-}
+.prominent-note { font-size: 0.9rem; font-weight: 700; color: #FF5722; padding: 5px 0; text-align: center; margin-top: 15px;}
 
 /* ------------------ Share Section ------------------ */
-
 .share-section { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; width: 100%; flex-shrink: 0; }
 .share-title { font-size: 0.95rem; color: #555; margin-bottom: 15px; font-weight: 600; }
 .share-icons { display: flex; justify-content: space-between; gap: 10px; }
-
-.share-btn { 
-    flex-grow: 1; padding: 12px 0; border-radius: 12px; border: none; color: white; font-size: 1.4rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); transition: transform 0.2s, opacity 0.2s;
-}
-
+.share-btn { flex-grow: 1; padding: 12px 0; border-radius: 12px; border: none; color: white; font-size: 1.4rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); transition: transform 0.2s, opacity 0.2s; }
 .share-btn:hover { transform: translateY(-2px); opacity: 0.9; }
 .share-btn.whatsapp { background-color: #25D366; }
 .share-btn.messenger { background-color: #0078FF; }
 .share-btn.facebook { background-color: #1877F2; }
 
-
 /* ------------------ Footer ------------------ */
-
 .app-footer {
-    width: 100%;
-    max-width: 480px; 
-    text-align: center;
-    margin-top: 20px; 
-    padding: 15px 0 0 0; 
-    border-top: 1px solid #f0f0f0;
-    flex-shrink: 0;
+    width: 100%; max-width: 480px; text-align: center; margin-top: 20px; padding: 15px 0 0 0; border-top: 1px solid #f0f0f0; flex-shrink: 0;
 }
-.contact-link { 
-    color: #075E54; 
-    text-decoration: none; 
-    font-weight: 800; 
-    font-size: 1.0rem; 
-    display: block; 
-    margin-bottom: 10px;
-    transition: color 0.3s;
-}
+.contact-link { color: #075E54; text-decoration: none; font-weight: 800; font-size: 1.0rem; display: block; margin-bottom: 10px; transition: color 0.3s; }
 .contact-link:hover { color: #25D366;}
 .copyright-text { margin: 5px 0; font-size: 0.8rem; color: #aaa; }
 .owner-name { font-weight: 700; color: #777; }
-
-
-/* ************************************ */
-/* تنسيق النافذة المنبثقة المخصصة (Modal) */
-/* ************************************ */
-
-.modal {
-    display: none; 
-    position: fixed; 
-    z-index: 1000; 
-    left: 0;
-    top: 0;
-    width: 100%;
-    /* استخدام الارتفاع الثابت لضمان عدم اهتزاز الـ Modal على الجوال */
-    height: 100%;
-    height: calc(var(--vh) * 100); 
-    background-color: rgba(0,0,0,0.7); 
-    justify-content: center;
-    align-items: center;
-    /* تحسين الأداء البصري */
-    transform: translateZ(0); 
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.modal[style*="display: flex"] {
-    opacity: 1;
-}
-
-.modal-content {
-    background-color: #fefefe;
-    padding: 20px;
-    border-radius: 15px;
-    width: 95%; /* زيادة العرض قليلاً للجوال */
-    max-width: 450px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-    /* لجعله يظهر في الجزء العلوي قليلاً */
-    position: relative;
-    top: 0; 
-    max-height: 90vh; /* يملأ 90% من ارتفاع الشاشة */
-    display: flex;
-    flex-direction: column;
-    
-    /* تأثير الحركة عند الظهور */
-    transform: translateY(20px);
-    transition: transform 0.3s ease;
-}
-
-.modal[style*="display: flex"] .modal-content {
-    transform: translateY(0);
-}
-
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    padding-bottom: 5px;
-    border-bottom: 1px solid #eee;
-}
-.modal-header h2 {
-    margin: 0;
-    font-size: 1.4rem;
-    color: #075E54;
-    font-weight: 700;
-}
-
-.close-btn {
-    color: #888;
-    font-size: 1.5rem;
-    font-weight: bold;
-    cursor: pointer;
-    background: none;
-    border: none;
-    padding: 0;
-    transition: color 0.2s;
-}
-.close-btn:hover, .close-btn:focus {
-    color: #333;
-}
-
-#modalSearchInput {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    font-size: 1rem;
-    box-sizing: border-box;
-    transition: border-color 0.2s;
-}
-#modalSearchInput:focus {
-    border-color: #25D366;
-    outline: none;
-}
-
-.country-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    overflow-y: auto; 
-    flex-grow: 1; 
-}
-.country-list::-webkit-scrollbar { width: 6px; }
-.country-list::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
-
-.country-item {
-    padding: 14px 10px;
-    border-bottom: 1px solid #f0f0f0;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    transition: background-color 0.2s;
-    justify-content: space-between; /* توزيع العناصر */
-}
-.country-item:hover {
-    background-color: #e8f5e9; /* لون أخضر فاتح عند التحويم */
-}
-.country-item:last-child { border-bottom: none; }
-
-.country-flag-modal {
-    font-size: 1.2rem;
-    margin-left: 10px;
-    flex-shrink: 0;
-}
-.country-name-modal {
-    flex-grow: 1;
-    font-weight: 500;
-    color: #333;
-}
-.country-code-modal {
-    font-weight: 700;
-    color: #075E54;
-    direction: ltr; 
-    font-size: 1.0rem;
-    flex-shrink: 0;
-}
-
-/* ------------------ Media Queries ------------------ */
-@media (max-width: 480px) {
-    /* على الهواتف الأصغر، اجعل الـ Modal يملأ الجزء الأكبر من الشاشة */
-    .modal-content {
-        width: 100%;
-        max-height: 95vh;
-        border-radius: 0;
-        top: 0;
-        padding: 15px;
-    }
-}
