@@ -1,5 +1,5 @@
 
-const APP_LINK = 'https://abdul3ziz95.github.io/zool/';
+const APP_LINK = 'https://abdul3ziz95.github.io/zol/';
 const SHARE_MESSAGE = 'جربوا مراسل الواتساب الفوري! أسرع طريقة لبدء محادثة دون حفظ الرقم. الرابط: ' + APP_LINK;
 const CURRENT_VERSION = '20251227'; // الإصدار المحدث
 
@@ -207,13 +207,15 @@ function setupPWA() {
      if ('serviceWorker' in navigator) {
         navigator.serviceWorker.getRegistrations().then(function(registrations) {
             for(let registration of registrations) {
-                if(registration.scope.includes('/zool/')) {
+                // تم التحديث هنا: zool -> zol
+                if(registration.scope.includes('/zol/')) { 
                    registration.unregister().catch(() => {});
                 }
             }
         });
         
-         navigator.serviceWorker.register(`/zool/sw.js?v=${CURRENT_VERSION}`, { scope: '/zool/' }) 
+         // تم التحديث هنا: zool -> zol
+         navigator.serviceWorker.register(`/zol/sw.js?v=${CURRENT_VERSION}`, { scope: '/zol/' }) 
             .catch(() => {});
     }
     
