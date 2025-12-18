@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -258,6 +257,9 @@
             
             if (country) {
                 updateFlagAndCode(country.code, country.iso);
+                // تحديث حقل البحث لعرض اسم الدولة
+                const countryOption = `${country.name} (+${country.code})`;
+                // لا نغير قيمة حقل البحث هنا لتجنب حلقة مفرغة، بل نعتمد على اختيار المستخدم
             } else {
                 // في حالة عدم تطابق الكود، إظهار علم افتراضي
                 currentFlagSpan.className = `flag-icon`; 
@@ -265,6 +267,7 @@
         }
         
         function handleCountrySearch(inputValue) {
+            // البحث عن تطابق كامل مع القيمة المختارة من القائمة المنسدلة
             const match = countryData.find(c => {
                 const displayValue = `${c.name} (+${c.code})`;
                 return displayValue === inputValue; 
@@ -342,3 +345,4 @@
     </script>
 </body>
 </html>
+
