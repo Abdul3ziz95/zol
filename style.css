@@ -1,11 +1,13 @@
 
 /* ------------------ Base & Layout (شاشة ثابتة 100%، بدون تمرير) ------------------ */
-/* تثبيت ارتفاع وعرض المتصفح بالكامل */
+
+/* تثبيت ارتفاع وعرض المتصفح بالكامل ومنع التمرير الخارجي تماماً */
 html, body {
     height: 100%; 
     width: 100%;
     margin: 0;
     padding: 0;
+    overflow: hidden; /* **الإصلاح الهام: منع تمرير الصفحة بالكامل** */
 }
 
 body {
@@ -14,51 +16,48 @@ body {
     text-align: right;
     background: linear-gradient(135deg, #e6fff3 0%, #f0f2f5 100%); 
     color: #333;
-    
     box-sizing: border-box;
     
-    /* ***** تثبيت الشاشة ومنع التمرير الخارجي ***** */
-    height: 100vh; 
-    width: 100vw;
-    overflow: hidden; 
-    
+    /* استخدام flexbox لتوسيط محتوى الصفحة بالكامل */
     display: flex;
-    justify-content: center;
-    /* التعديل الهام: لضمان التوسيط الرأسي للقالب في الشاشة */
-    align-items: center; 
+    justify-content: center; /* توسيط أفقي */
+    align-items: center;   /* توسيط عمودي */
 }
 
 .page-wrapper {
-    /* السماح بالتمرير الداخلي في حال زاد المحتوى عن ارتفاع الشاشة */
-    height: 100vh;
     width: 100%;
     max-width: 450px; 
     
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; 
-    align-items: center; 
-    
-    /* إضافة Padding مناسب لمنع المحتوى من الالتصاق بحواف الشاشة */
+    /* تحديد أقصى ارتفاع متاح لملء الشاشة مع ترك مسافة Padding */
+    max-height: 100vh;
     padding: 20px 10px; 
     box-sizing: border-box;
-    /* السماح بالتمرير الداخلي داخل wrapper إذا كان المحتوى أطول من الشاشة */
+    
+    display: flex;
+    flex-direction: column;
+    
+    /* **الإصلاح الهام: السماح بالتمرير الداخلي فقط إذا كان المحتوى أطول** */
     overflow-y: auto; 
+    /* إخفاء شريط التمرير إذا لم يكن ضرورياً */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
 }
+
+.page-wrapper::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
 
 /* ** تأثير البطاقة ثلاثية الأبعاد (Container) ** */
 .container {
     width: 100%; 
-    max-width: 400px; 
     background-color: #ffffff;
     padding: 30px 25px; 
     border-radius: 18px; 
-    
-    /* ظل عميق يحاكي الـ 3D */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
-    
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     margin-bottom: 20px; 
+    flex-shrink: 0; /* ضمان عدم تقليص حجم البطاقة */
 }
 .container:hover {
     transform: translateY(-5px); 
@@ -136,6 +135,7 @@ button:not(.install-prompt-button):hover { background-color: #1FAF59; transform:
     padding-top: 15px;
     border-top: 1px solid #eee;
     width: 100%;
+    flex-shrink: 0;
 }
 
 .share-title {
@@ -188,6 +188,7 @@ button:not(.install-prompt-button):hover { background-color: #1FAF59; transform:
     font-size: 0.75rem;
     color: #999;
     border-top: 1px solid #f0f0f0;
+    flex-shrink: 0;
 }
 
 /* رابط الاتصال (أكثر وضوحاً وتميزاً) */
@@ -218,11 +219,9 @@ button:not(.install-prompt-button):hover { background-color: #1FAF59; transform:
 
 /* ------------------ Media Query for Desktop View ------------------ */
 @media (min-width: 768px) {
-    .container {
-        padding: 40px;
-    }
+    /* في الشاشات الكبيرة، يجب ألا يزيد العرض عن حجم معين */
     .page-wrapper {
-        padding: 40px 10px;
-        overflow-y: auto; 
+        height: auto;
+        max-height: 90vh; /* تحديد ارتفاع أقصى في الشاشات الكبيرة */
     }
 }
