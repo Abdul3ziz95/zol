@@ -1,3 +1,4 @@
+
 const APP_LINK = 'https://abdul3ziz95.github.io/zool/';
 const SHARE_MESSAGE = 'جربوا مراسل الواتساب الفوري! أسرع طريقة لبدء محادثة دون حفظ الرقم. الرابط: ' + APP_LINK;
 const CURRENT_VERSION = '20251227'; // الإصدار المحدث
@@ -166,17 +167,26 @@ function shareApp(platform) {
     let url = '';
     const finalLink = APP_LINK + '?source=share'; 
     const finalMessage = SHARE_MESSAGE.replace(APP_LINK, finalLink);
+    
     switch (platform) {
         case 'whatsapp':
             url = `https://wa.me/?text=${encodeURIComponent(finalMessage)}`;
             break;
+            
         case 'messenger':
-        case 'facebook': // تم توحيد رابط ماسنجر وفيسبوك هنا لحل مشكلة App ID
+            // الحل الجديد: استخدام رابط m.me الذي يفتح التطبيق مباشرة مع الرابط
+            url = `https://m.me/?link=${encodeURIComponent(finalLink)}`;
+            break;
+            
+        case 'facebook':
+            // يستخدم رابط المشاركة العامة لإنشاء منشور (أو مشاركة في قصص)
             url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(finalLink)}&quote=${encodeURIComponent(finalMessage)}`;
             break;
+            
         default:
             return;
     }
+    
     window.open(url, '_blank', 'width=600,height=400');
 }
 
@@ -234,4 +244,3 @@ function setupPWA() {
 }
 
 window.addEventListener('load', initializeApp);
-
