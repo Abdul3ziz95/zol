@@ -17,18 +17,19 @@ body {
     
     box-sizing: border-box;
     
-    /* ***** تثبيت الشاشة ومنع التمرير ***** */
+    /* ***** تثبيت الشاشة ومنع التمرير الخارجي ***** */
     height: 100vh; 
     width: 100vw;
     overflow: hidden; 
     
     display: flex;
     justify-content: center;
-    /* التبديل من align-items: center إلى flex-start لضمان أن المحتوى يبدأ من الأعلى */
-    align-items: flex-start; 
+    /* التعديل الهام: لضمان التوسيط الرأسي للقالب في الشاشة */
+    align-items: center; 
 }
 
 .page-wrapper {
+    /* السماح بالتمرير الداخلي في حال زاد المحتوى عن ارتفاع الشاشة */
     height: 100vh;
     width: 100%;
     max-width: 450px; 
@@ -38,9 +39,10 @@ body {
     justify-content: space-between; 
     align-items: center; 
     
-    /* تقليل الـ Padding العلوي إلى الحد الأدنى لإلغاء الفراغ */
-    padding: 10px 10px 20px 10px; 
+    /* إضافة Padding مناسب لمنع المحتوى من الالتصاق بحواف الشاشة */
+    padding: 20px 10px; 
     box-sizing: border-box;
+    /* السماح بالتمرير الداخلي داخل wrapper إذا كان المحتوى أطول من الشاشة */
     overflow-y: auto; 
 }
 
@@ -219,13 +221,8 @@ button:not(.install-prompt-button):hover { background-color: #1FAF59; transform:
     .container {
         padding: 40px;
     }
-    /* إعادة توسيط المحتوى في الشاشات الكبيرة للحفاظ على المظهر الجمالي */
-    body {
-        align-items: center; 
-    }
     .page-wrapper {
         padding: 40px 10px;
-        /* السماح بالتمرير إذا كان المحتوى أكبر من ارتفاع الشاشة */
         overflow-y: auto; 
     }
 }
