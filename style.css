@@ -15,28 +15,24 @@ body {
     width: 100vw;
     overflow: hidden; 
     
-    /* توسيط المحتوى الأفقي والرأسي */
     display: flex;
     justify-content: center;
     align-items: center; 
 }
 
 .page-wrapper {
-    /* الـ page-wrapper هو الحاوية الرئيسية التي يجب أن تملأ الشاشة */
     height: 100vh;
     width: 100%;
-    max-width: 450px; /* لضمان عدم تمدده بشكل مفرط على الشاشات الكبيرة */
+    max-width: 450px; 
     
-    /* استخدام Flexbox لتوزيع المحتوى والتذييل */
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* دفع التذييل للأسفل */
+    justify-content: space-between; 
     align-items: center; 
     
-    /* إضافة تباعد داخلي للحاوية الكبرى بدلاً من Body */
     padding: 20px 10px; 
     box-sizing: border-box;
-    overflow-y: auto; /* السماح بالتمرير داخل هذا الإطار إذا كان المحتوى أطول من الشاشة */
+    overflow-y: auto; 
 }
 
 /* ** تأثير البطاقة ثلاثية الأبعاد (Container) ** */
@@ -51,11 +47,13 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
     
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    margin-bottom: 20px; /* مسافة قبل التذييل */
+    margin-bottom: 20px; 
 }
 .container:hover {
     transform: translateY(-5px); 
 }
+
+/* ------------------ تنسيق العنوان والوصف الأصليين ------------------ */
 
 .app-heading {
     color: #075E54; 
@@ -68,181 +66,114 @@ body {
 .description {
     text-align: center;
     color: #777;
-    margin-bottom: 30px;
+    margin-bottom: 30px; /* مسافة كافية قبل عناصر الإدخال */
     font-size: 0.9rem;
     line-height: 1.6;
 }
 
-/* ------------------ عناصر النموذج (Inputs & Selects) ------------------ */
+/* ------------------ عناصر الإدخال والأزرار ------------------ */
 
-.input-group {
-    margin-bottom: 20px; 
+.input-group { margin-bottom: 20px; }
+.input-group label { display: block; margin-bottom: 6px; font-size: 0.85rem; color: #555; font-weight: 600; }
+select { width: 100%; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 10px; font-size: 1rem; background-color: #f9f9f9; appearance: none; cursor: pointer; background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="gray"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>'); background-repeat: no-repeat; background-position: left 15px center; transition: all 0.2s;}
+select:focus,#phoneInput:focus { border-color: #25D366; outline: none; box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.25); }
+
+.phone-input-container { display: flex; gap: 8px; margin-bottom: 25px;}
+.country-code-wrapper { display: flex; align-items: center; background-color: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 10px; padding: 0 8px; flex-basis: 110px; flex-shrink: 0; transition: all 0.2s;}
+.country-code-wrapper:focus-within { border-color: #25D366; box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.25);}
+#codeInput { border: none; background: transparent; padding: 12px 0; text-align: right; width: 100%; font-size: 1rem; font-weight: 700; color: #075E54;}
+#phoneInput { flex-grow: 1; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 10px; font-size: 1rem; transition: all 0.2s;}
+.flag-icon { font-size: 1.5rem; margin-left: 8px; min-width: 24px;}
+.install-prompt-button { width: 100%; padding: 14px; margin-bottom: 25px; background-color: #4A90E2; color: white; border: none; border-radius: 10px; font-size: 1rem; cursor: pointer; box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4); transition: all 0.2s;}
+.install-prompt-button:hover { background-color: #3A7CC7; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(74, 144, 226, 0.5);}
+button:not(.install-prompt-button) { width: 100%; padding: 16px; background-color: #25D366; color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 700; cursor: pointer; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); transition: all 0.2s; display: flex; align-items: center; justify-content: center;}
+button:not(.install-prompt-button):hover { background-color: #1FAF59; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37, 211, 102, 0.5);}
+.icon { width: 20px; height: 20px; margin-left: 10px;}
+.note { text-align: center; font-size: 0.8rem; color: #999; margin-top: 15px;}
+
+
+/* ------------------ قسم أيقونات المشاركة ------------------ */
+
+.share-section {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    width: 100%;
 }
 
-.input-group label {
-    display: block;
-    margin-bottom: 6px; 
-    font-size: 0.85rem;
+.share-title {
+    font-size: 0.9rem;
     color: #555;
+    margin-bottom: 15px;
     font-weight: 600;
 }
 
-select {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    font-size: 1rem;
-    background-color: #f9f9f9;
-    appearance: none; 
-    cursor: pointer;
-    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="gray"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>');
-    background-repeat: no-repeat;
-    background-position: left 15px center;
-    transition: all 0.2s;
-}
-
-select:focus,
-#phoneInput:focus {
-    border-color: #25D366;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.25); 
-}
-
-/* ------------------ حقول إدخال الهاتف ------------------ */
-
-.phone-input-container {
+.share-icons {
     display: flex;
-    gap: 8px; 
-    margin-bottom: 25px;
-}
-
-.country-code-wrapper {
-    display: flex;
-    align-items: center;
-    background-color: #f9f9f9;
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    padding: 0 8px; 
-    flex-basis: 110px; 
-    flex-shrink: 0;
-    transition: all 0.2s;
-}
-
-.country-code-wrapper:focus-within { 
-    border-color: #25D366;
-    box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.25);
-}
-
-#codeInput {
-    border: none;
-    background: transparent;
-    padding: 12px 0;
-    text-align: right; 
-    width: 100%;
-    font-size: 1rem;
-    font-weight: 700;
-    color: #075E54;
-}
-
-#phoneInput {
-    flex-grow: 1;
-    padding: 12px 15px;
-    border: 1px solid #e0e0e0;
-    border-radius: 10px;
-    font-size: 1rem;
-    transition: all 0.2s;
-}
-
-.flag-icon {
-    font-size: 1.5rem;
-    margin-left: 8px;
-    min-width: 24px;
-}
-
-/* ------------------ الأزرار التفاعلية ------------------ */
-
-.install-prompt-button {
-    width: 100%;
-    padding: 14px;
-    margin-bottom: 25px;
-    background-color: #4A90E2; 
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 1rem;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
-    transition: all 0.2s;
-}
-.install-prompt-button:hover {
-    background-color: #3A7CC7;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(74, 144, 226, 0.5);
-}
-
-
-button:not(.install-prompt-button) {
-    width: 100%;
-    padding: 16px; 
-    background-color: #25D366;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); 
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
     justify-content: center;
+    gap: 15px;
 }
 
-button:not(.install-prompt-button):hover {
-    background-color: #1FAF59;
-    transform: translateY(-2px); 
-    box-shadow: 0 8px 20px rgba(37, 211, 102, 0.5);
+.share-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s, opacity 0.2s;
 }
 
-.icon {
-    width: 20px;
-    height: 20px;
-    margin-left: 10px;
+.share-btn:hover {
+    transform: scale(1.1);
+    opacity: 0.9;
 }
 
-.note {
-    text-align: center;
-    font-size: 0.8rem;
-    color: #999;
-    margin-top: 15px;
-}
+.share-btn.whatsapp { background-color: #25D366; }
+.share-btn.messenger { background-color: #0078FF; }
+.share-btn.facebook { background-color: #1877F2; }
 
-/* ------------------ التذييل (Footer Fix) ------------------ */
+
+/* ------------------ التذييل (Footer) المُحسَّن والواضح ------------------ */
 
 .app-footer {
     width: 100%;
     max-width: 400px; 
     text-align: center;
-    margin-top: auto; /* يدفع التذييل إلى الأسفل (Flexbox) */
-    padding: 10px 0;
+    margin-top: auto; 
+    padding: 15px 0 0 0; 
     font-size: 0.75rem;
-    color: #aaa;
+    color: #999;
+    border-top: 1px solid #f0f0f0;
 }
 
-.app-footer p {
-    margin: 3px 0;
-}
-
+/* رابط الاتصال (أكثر وضوحاً وتميزاً) */
 .contact-link {
     color: #075E54;
     text-decoration: none;
     transition: color 0.3s;
-    font-weight: 600;
+    font-weight: 800; /* أثقل خط */
+    font-size: 1.0rem; /* حجم أكبر قليلاً */
+    display: block;
+    margin-bottom: 10px;
 }
 
 .contact-link:hover {
     color: #25D366;
+}
+
+/* حقوق النشر واسمك */
+.copyright-text {
+    margin: 5px 0;
+    font-size: 0.8rem;
+    color: #aaa;
+}
+.owner-name {
+    font-weight: 700;
+    color: #777; 
 }
 
 /* ------------------ Media Query for Desktop View ------------------ */
