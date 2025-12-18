@@ -1,35 +1,47 @@
-    }
-}
 
-/* ------------------ Base & Layout (شاشة كاملة وتأثير 3D) ------------------ */
+/* ------------------ Base & Layout (شاشة ثابتة 100%، بدون تمرير) ------------------ */
 body {
     font-family: 'Cairo', sans-serif;
     direction: rtl;
     text-align: right;
-    background: linear-gradient(135deg, #e6fff3 0%, #f0f2f5 100%); /* خلفية متدرجة حديثة */
+    background: linear-gradient(135deg, #e6fff3 0%, #f0f2f5 100%); 
     color: #333;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    overflow-x: hidden; 
     
+    /* ***** تثبيت الشاشة ومنع التمرير ***** */
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden; 
+    
+    /* توسيط المحتوى الأفقي والرأسي */
     display: flex;
     justify-content: center;
-    align-items: center; /* توسيط رأسي للمحتوى */
-    min-height: 100vh;
+    align-items: center; 
 }
 
 .page-wrapper {
+    /* الـ page-wrapper هو الحاوية الرئيسية التي يجب أن تملأ الشاشة */
+    height: 100vh;
+    width: 100%;
+    max-width: 450px; /* لضمان عدم تمدده بشكل مفرط على الشاشات الكبيرة */
+    
+    /* استخدام Flexbox لتوزيع المحتوى والتذييل */
     display: flex;
     flex-direction: column;
-    width: 100%;
+    justify-content: space-between; /* دفع التذييل للأسفل */
     align-items: center; 
-    padding: 0; /* تم إزالة التباعد هنا */
+    
+    /* إضافة تباعد داخلي للحاوية الكبرى بدلاً من Body */
+    padding: 20px 10px; 
+    box-sizing: border-box;
+    overflow-y: auto; /* السماح بالتمرير داخل هذا الإطار إذا كان المحتوى أطول من الشاشة */
 }
 
 /* ** تأثير البطاقة ثلاثية الأبعاد (Container) ** */
 .container {
-    width: 90%; /* نسبة مئوية لملء الشاشة على الجوال */
+    width: 100%; 
     max-width: 400px; 
     background-color: #ffffff;
     padding: 30px 25px; 
@@ -38,13 +50,10 @@ body {
     /* ظل عميق يحاكي الـ 3D */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
     
-    /* تأثير خفيف عند التحريك (3D Tilt Effect) - إختياري */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    
-    margin: 20px auto; 
+    margin-bottom: 20px; /* مسافة قبل التذييل */
 }
 .container:hover {
-    /* تحريك خفيف عند التفاعل ليعطي شعور العمق */
     transform: translateY(-5px); 
 }
 
@@ -78,7 +87,6 @@ body {
     font-weight: 600;
 }
 
-/* القائمة المنسدلة */
 select {
     width: 100%;
     padding: 12px 15px;
@@ -98,7 +106,7 @@ select:focus,
 #phoneInput:focus {
     border-color: #25D366;
     outline: none;
-    box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.25); /* ظل تركيز أقوى وأوضح */
+    box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.25); 
 }
 
 /* ------------------ حقول إدخال الهاتف ------------------ */
@@ -109,7 +117,6 @@ select:focus,
     margin-bottom: 25px;
 }
 
-/* حاوية الكود والدولة */
 .country-code-wrapper {
     display: flex;
     align-items: center;
@@ -177,7 +184,7 @@ select:focus,
 
 button:not(.install-prompt-button) {
     width: 100%;
-    padding: 16px; /* زر أكبر قليلاً وأكثر وضوحاً */
+    padding: 16px; 
     background-color: #25D366;
     color: white;
     border: none;
@@ -185,7 +192,7 @@ button:not(.install-prompt-button) {
     font-size: 1.1rem;
     font-weight: 700;
     cursor: pointer;
-    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); /* ظل عميق للزر */
+    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); 
     transition: all 0.2s;
     display: flex;
     align-items: center;
@@ -194,7 +201,7 @@ button:not(.install-prompt-button) {
 
 button:not(.install-prompt-button):hover {
     background-color: #1FAF59;
-    transform: translateY(-2px); /* تأثير 3D خفيف */
+    transform: translateY(-2px); 
     box-shadow: 0 8px 20px rgba(37, 211, 102, 0.5);
 }
 
@@ -211,13 +218,13 @@ button:not(.install-prompt-button):hover {
     margin-top: 15px;
 }
 
-/* ------------------ التذييل (Footer) ------------------ */
+/* ------------------ التذييل (Footer Fix) ------------------ */
 
 .app-footer {
     width: 100%;
     max-width: 400px; 
     text-align: center;
-    margin: 15px 0 20px 0; 
+    margin-top: auto; /* يدفع التذييل إلى الأسفل (Flexbox) */
     padding: 10px 0;
     font-size: 0.75rem;
     color: #aaa;
@@ -242,5 +249,8 @@ button:not(.install-prompt-button):hover {
 @media (min-width: 768px) {
     .container {
         padding: 40px;
+    }
+    .page-wrapper {
+        padding: 40px 10px;
     }
 }
