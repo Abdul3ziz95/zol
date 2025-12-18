@@ -1,7 +1,7 @@
 
 {
-  "name": "مراسل الواتساب المباشر",
-  "short_name": "واتساب مباشر",
+  "name": "دردشة مباشرة",
+  "short_name": "دردشة مباشرة ",
   "description": "أداة لفتح محادثة واتساب بدون حفظ الرقم مع دعم مفاتيح الدول.",
   "start_url": "/zool/index.html",
   "display": "standalone",
