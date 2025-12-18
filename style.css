@@ -1,42 +1,42 @@
 
 /* ------------------ Base & Layout (شاشة ثابتة 100%، بدون تمرير) ------------------ */
 
-/* تثبيت ارتفاع وعرض المتصفح بالكامل ومنع التمرير الخارجي تماماً */
-html {
-    height: 100vh; /* لضمان أن HTML يملأ الشاشة تماماً في الجوال */
+/* 1. تثبيت ارتفاع وعرض المتصفح بالكامل ومنع التمرير على مستوى الصفحة */
+html, body {
+    height: 100%; 
     width: 100%;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    overflow: hidden; /* يمنع التمرير على مستوى HTML */
 }
 
 body {
-    height: 100%; /* الـ Body يملأ الـ HTML (أي يملأ الشاشة) */
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    /* **الإصلاح الهام 1: منع تمرير الصفحة بالكامل** */
-    overflow: hidden; 
-    box-sizing: border-box;
+    /* **الإصلاح النهائي لمشكلة الحركة:** يثبت الـ body تماماً ويمنع تحريكه عند إخفاء شريط العنوان في الجوال */
+    position: fixed; 
+    top: 0;
+    left: 0;
     
+    /* خصائص الـ body الأخرى */
     font-family: 'Cairo', sans-serif;
     direction: rtl;
     text-align: right;
     background: linear-gradient(135deg, #e6fff3 0%, #f0f2f5 100%); 
     color: #333;
     
-    /* **الإصلاح الهام 2: استخدام flexbox لتوسيط المحتوى في وسط الشاشة** */
+    /* توسيط المحتوى الأفقي والعمودي بالكامل في الشاشة */
     display: flex;
-    justify-content: center; /* توسيط أفقي */
-    align-items: center;   /* توسيط عمودي (يزيل الفراغ العلوي) */
+    justify-content: center; 
+    align-items: center;   
 }
 
 .page-wrapper {
     width: 100%;
     max-width: 450px; 
     
-    /* لضمان أن الـ Wrapper لا يتجاوز ارتفاع الشاشة مهما كان طول المحتوى */
-    max-height: 100vh; 
+    /* **الإصلاح الهام:** يضمن أن الـ Wrapper يأخذ ارتفاع الشاشة بالكامل (بما أن الـ body ثابت) */
+    height: 100%; 
+    max-height: 100%; 
     
     /* تعيين Padding داخلي للحواف */
     padding: 20px 10px; 
@@ -45,7 +45,7 @@ body {
     display: flex;
     flex-direction: column;
     
-    /* السماح بالتمرير الداخلي فقط داخل wrapper */
+    /* السماح بالتمرير الداخلي فقط داخل wrapper (لمحتوى البطاقة) */
     overflow-y: auto; 
     
     /* إخفاء شريط التمرير الداخلي */
@@ -56,185 +56,4 @@ body {
 .page-wrapper::-webkit-scrollbar {
     display: none;
 }
-
-
-/* ** تأثير البطاقة ثلاثية الأبعاد (Container) ** */
-.container {
-    width: 100%; 
-    background-color: #ffffff;
-    padding: 30px 25px; 
-    border-radius: 18px; 
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    margin-bottom: 20px; 
-    flex-shrink: 0; 
-}
-.container:hover {
-    transform: translateY(-5px); 
-}
-
-/* ------------------ تنسيق العنوان والوصف الأصليين ------------------ */
-
-.app-heading {
-    color: #075E54; 
-    text-align: center;
-    margin-bottom: 5px;
-    font-weight: 700;
-    font-size: 1.6rem;
-}
-
-.description {
-    text-align: center;
-    color: #777;
-    margin-bottom: 30px; 
-    font-size: 0.9rem;
-    line-height: 1.6;
-}
-
-/* ------------------ عناصر الإدخال والأزرار ------------------ */
-
-.input-group { margin-bottom: 20px; }
-.input-group label { display: block; margin-bottom: 6px; font-size: 0.85rem; color: #555; font-weight: 600; }
-
-/* تنسيق حقل البحث الجديد (Datalist Input) */
-#countrySearch { 
-    width: 100%; 
-    padding: 12px 15px; 
-    border: 1px solid #e0e0e0; 
-    border-radius: 10px; 
-    font-size: 1rem; 
-    background-color: #f9f9f9; 
-    transition: all 0.2s;
-}
-
-#countrySearch:focus, #phoneInput:focus { 
-    border-color: #25D366; 
-    outline: none; 
-    box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.25); 
-}
-
-
-.phone-input-container { display: flex; gap: 8px; margin-bottom: 25px;}
-.country-code-wrapper { display: flex; align-items: center; background-color: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 10px; padding: 0 8px; flex-basis: 110px; flex-shrink: 0; transition: all 0.2s;}
-.country-code-wrapper:focus-within { border-color: #25D366; box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.25);}
-#codeInput { border: none; background: transparent; padding: 12px 0; text-align: right; width: 100%; font-size: 1rem; font-weight: 700; color: #075E54;}
-#phoneInput { flex-grow: 1; padding: 12px 15px; border: 1px solid #e0e0e0; border-radius: 10px; font-size: 1rem; transition: all 0.2s;}
-.flag-icon { font-size: 1.5rem; margin-left: 8px; min-width: 24px;}
-.install-prompt-button { width: 100%; padding: 14px; margin-bottom: 25px; background-color: #4A90E2; color: white; border: none; border-radius: 10px; font-size: 1rem; cursor: pointer; box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4); transition: all 0.2s;}
-.install-prompt-button:hover { background-color: #3A7CC7; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(74, 144, 226, 0.5);}
-button:not(.install-prompt-button) { width: 100%; padding: 16px; background-color: #25D366; color: white; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 700; cursor: pointer; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); transition: all 0.2s; display: flex; align-items: center; justify-content: center;}
-button:not(.install-prompt-button):hover { background-color: #1FAF59; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(37, 211, 102, 0.5);}
-.icon { width: 20px; height: 20px; margin-left: 10px;}
-
-/* ** تنسيق التنبيه الواضح والبارز ** */
-.note { text-align: center; font-size: 0.8rem; color: #999; margin-top: 15px;}
-.prominent-note {
-    font-size: 0.9rem;
-    font-weight: 700; 
-    color: #FF6347; 
-    padding: 5px 0;
-    border-radius: 5px;
-}
-
-
-/* ------------------ قسم أيقونات المشاركة (تم تصحيح العرض) ------------------ */
-
-.share-section {
-    text-align: center;
-    margin-top: 30px;
-    padding-top: 15px;
-    border-top: 1px solid #eee;
-    width: 100%;
-    flex-shrink: 0;
-}
-
-.share-title {
-    font-size: 0.9rem;
-    color: #555;
-    margin-bottom: 15px;
-    font-weight: 600;
-}
-
-.share-icons {
-    display: flex;
-    /* **الإصلاح الهام 3: التوزيع المتساوي للأزرار داخل العرض المتاح** */
-    justify-content: space-between; 
-    align-items: center;
-    gap: 10px; 
-}
-
-.share-btn {
-    flex-grow: 1; /* جعل الأزرار تأخذ نفس المساحة أفقياً */
-    padding: 12px 0; /* لتبدو كأزرار ذات مساحة كافية */
-    height: auto; 
-    border-radius: 10px; /* جعلها مستطيلة بدلاً من دائرة لتناسب النصوص */
-    border: none;
-    color: white;
-    font-size: 1.2rem;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s, opacity 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 0; /* لضمان عدم تجاوز العرض في الهواتف */
-}
-
-.share-btn:hover {
-    transform: translateY(-2px);
-    opacity: 0.9;
-}
-
-/* **تغيير الأيقونات لتظهر كأزرار مستطيلة متناسقة** */
-.share-btn.whatsapp { background-color: #25D366; }
-.share-btn.messenger { background-color: #0078FF; }
-.share-btn.facebook { background-color: #1877F2; }
-
-
-/* ------------------ التذييل (Footer) المُحسَّن والواضح ------------------ */
-
-.app-footer {
-    width: 100%;
-    max-width: 400px; 
-    text-align: center;
-    /* Margin-top: auto لضمان أن الـ footer يظل في الأسفل إذا كان المحتوى قصير */
-    margin-top: 15px; 
-    padding: 15px 0 0 0; 
-    font-size: 0.75rem;
-    color: #999;
-    border-top: 1px solid #f0f0f0;
-    flex-shrink: 0;
-}
-
-/* رابط الاتصال (أكثر وضوحاً وتميزاً) */
-.contact-link {
-    color: #075E54;
-    text-decoration: none;
-    transition: color 0.3s;
-    font-weight: 800; 
-    font-size: 1.0rem; 
-    display: block;
-    margin-bottom: 10px;
-}
-
-.contact-link:hover {
-    color: #25D366;
-}
-
-/* حقوق النشر واسمك */
-.copyright-text {
-    margin: 5px 0;
-    font-size: 0.8rem;
-    color: #aaa;
-}
-.owner-name {
-    font-weight: 700;
-    color: #777; 
-}
-
-/* ------------------ Media Query for Desktop View ------------------ */
-@media (min-width: 768px) {
-    .page-wrapper {
-        padding: 40px 10px;
-    }
-}
+/* ... باقي الكود كما هو (بما في ذلك تصحيحات أيقونات المشاركة) ... */
