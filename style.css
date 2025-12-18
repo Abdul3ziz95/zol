@@ -58,6 +58,96 @@ body {
     -webkit-overflow-scrolling: touch; 
 }
 
+/* ------------------ New Header Controls (Fixed Icons) ------------------ */
+
+.header-controls {
+    position: fixed;
+    top: 20px;
+    
+    /* استخدام flexbox لتجميع الأزرار */
+    display: flex;
+    gap: 10px; /* مسافة بين الزرين */
+    z-index: 100;
+    transition: all 0.2s ease-in-out;
+}
+
+/* محاذاة الأزرار تبعاً لاتجاه الصفحة */
+[dir="rtl"] .header-controls { 
+    left: 20px; /* في RTL تكون في الزاوية اليسرى */
+}
+[dir="ltr"] .header-controls { 
+    right: 20px; /* في LTR تكون في الزاوية اليمنى */
+}
+
+
+/* ------------------ زر تبديل اللغة (تنسيق محدث ليتناسب مع أيقونة التثبيت) ------------------ */
+#langToggleBtn {
+    /* تم تغيير التنسيق ليصبح زر أيقونة ثابتة */
+    width: auto; /* لا يأخذ عرض 100% */
+    
+    /* الشكل والحجم */
+    padding: 8px 10px; /* تصغير حجم الزر */
+    margin-top: 0; /* إزالة الهامش القديم */
+    
+    /* الألوان والمظهر */
+    background: #075E54; /* لون أخضر داكن لتمييزه */
+    color: white; 
+    border: 1px solid #075E54; 
+    border-radius: 12px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+    
+    /* النص والخط */
+    cursor: pointer;
+    font-size: 0.9rem; /* تصغير الخط */
+    font-weight: 700;
+    
+    /* المؤثرات والتفاعل */
+    transition: all 0.2s ease-in-out; 
+    user-select: none;
+}
+#langToggleBtn:active {
+    transform: scale(0.98); 
+    background: #097d6d;
+    box-shadow: none;
+}
+#langToggleBtn:hover {
+    background: #08665b; 
+}
+
+
+/* ------------------ PWA Install Button (New Style) ------------------ */
+.install-prompt-button {
+    /* تم تغيير التنسيق ليصبح أيقونة ثابتة */
+    width: auto;
+    background-color: #f0f0f0;
+    color: #075E54;
+    border: 1px solid #ddd;
+    padding: 8px 10px; /* تصغير الأيقونة */
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 0; /* إزالة الهامش القديم */
+    transition: background-color 0.2s, transform 0.2s;
+    
+    /* تنسيق داخلي لإظهار الأيقونة والنص بشكل جيد (بما أن display: flex تم تعيينه في JS) */
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+}
+.install-prompt-button i {
+    font-size: 1rem;
+    /* مسافة بين الأيقونة والنص (تعتمد على اتجاه النص) */
+    margin-inline-end: 5px; 
+}
+.install-prompt-button:hover {
+    background-color: #e0e0e0;
+}
+.install-prompt-button:active {
+    transform: scale(0.98);
+}
+
+
 /* ------------------ Header & Description ------------------ */
 .app-heading {
     font-size: 1.8rem;
@@ -70,67 +160,6 @@ body {
     color: #666;
     margin-bottom: 25px;
     font-weight: 500;
-}
-
-/* ------------------ PWA Install Button ------------------ */
-.install-prompt-button {
-    width: 100%;
-    background-color: #f0f0f0;
-    color: #075E54;
-    border: 1px solid #ddd;
-    padding: 10px 15px;
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 0.9rem;
-    margin-bottom: 20px;
-    transition: background-color 0.2s;
-}
-.install-prompt-button:hover {
-    background-color: #e0e0e0;
-}
-
-
-/* ------------------ زر تبديل اللغة (التنسيق الجديد المطلوب) ------------------ */
-#langToggleBtn {
-    /* تم إزالة التنسيق الثابت (position: fixed) */
-    
-    /* تنسيق ليتناسب مع منطقة المشاركة */
-    margin-top: 25px; 
-    width: 100%; /* جعله يأخذ عرض الحاوية بالكامل */
-    
-    /* الشكل والحجم */
-    padding: 10px 15px; 
-    
-    /* الألوان والمظهر */
-    background: #f0f0f0; 
-    color: #075E54; 
-    border: 2px solid #ddd;
-    border-radius: 12px; 
-    
-    /* الظل أصبح ظل عادي ليتناسب مع بقية العناصر */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
-    
-    /* النص والخط */
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 700;
-    
-    /* المؤثرات والتفاعل */
-    transition: all 0.2s ease-in-out; 
-    user-select: none;
-}
-
-/* مؤثر عند الضغط */
-#langToggleBtn:active {
-    transform: scale(0.99); 
-    background: #e0e0e0;
-    box-shadow: none;
-}
-
-/* مؤثر عند مرور الفأرة */
-#langToggleBtn:hover {
-    background: #e6e6e6; 
 }
 
 
@@ -280,7 +309,7 @@ body {
     display: flex; 
     justify-content: space-between; 
     gap: 8px; 
-    margin-bottom: 0; /* تم إزالة الهامش السفلي للسماح لزر اللغة بالظهور بعده مباشرة */
+    margin-bottom: 0;
 }
 .share-btn { 
     flex-grow: 1; 
