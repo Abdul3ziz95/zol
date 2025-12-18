@@ -1,19 +1,19 @@
 
 /* ------------------ Base & Layout (شاشة ثابتة 100%، بدون تمرير) ------------------ */
 
-/* 1. تثبيت ارتفاع وعرض المتصفح بالكامل ومنع التمرير على مستوى الصفحة */
-html, body {
-    /* الحل النهائي لمنع الحركة الأفقي/العمودي على مستوى الصفحة */
-    height: 100%; 
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    overflow: hidden; 
+html {
+    /* يضمن أن المتغير --vh متاح لجميع العناصر */
+    --vh: 100vh;
 }
 
 body {
-    /* يثبت الـ body تماماً ويمنع تحريكه عند إخفاء شريط العنوان في الجوال */
+    /* ** الحل الجذري لمنع الحركة الأفقي/العمودي على مستوى الصفحة ** */
+    height: 100%; 
+    height: calc(var(--vh) * 100); /* استخدام الارتفاع الثابت الذي تم حسابه بواسطة JS */
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; 
     position: fixed; 
     top: 0;
     left: 0;
@@ -39,14 +39,13 @@ body {
     height: 100%; 
     max-height: 100%; 
     
-    /* تعيين Padding داخلي للحواف */
     padding: 20px 10px; 
     box-sizing: border-box;
     
     display: flex;
     flex-direction: column;
     
-    /* السماح بالتمرير الداخلي فقط داخل wrapper (لمحتوى البطاقة) */
+    /* السماح بالتمرير الداخلي فقط */
     overflow-y: auto; 
     
     /* إخفاء شريط التمرير الداخلي */
@@ -64,72 +63,57 @@ body {
     width: 100%; 
     background-color: #ffffff;
     padding: 30px 25px; 
-    border-radius: 20px; /* زيادة جمالية */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.03); /* ظل أنعم وأكثر جمالية */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 20px; 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(0, 0, 0, 0.03); 
     margin-bottom: 20px; 
     flex-shrink: 0; 
 }
-.container:hover {
-    transform: translateY(-3px); /* تأثير رفع خفيف */
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-}
 
-/* ------------------ تنسيق العنوان والوصف الأصليين ------------------ */
 
-.app-heading {
-    color: #075E54; 
-    text-align: center;
-    margin-bottom: 5px;
-    font-weight: 700;
-    font-size: 1.8rem; /* زيادة حجم الخط */
-}
+/* ------------------ تنسيق العنوان والوصف ------------------ */
 
-.description {
-    text-align: center;
-    color: #777;
-    margin-bottom: 30px; 
-    font-size: 0.95rem;
-    line-height: 1.6;
-}
+.app-heading { color: #075E54; text-align: center; margin-bottom: 5px; font-weight: 700; font-size: 1.8rem; }
+.description { text-align: center; color: #777; margin-bottom: 30px; font-size: 0.95rem; line-height: 1.6; }
 
 /* ------------------ عناصر الإدخال والأزرار ------------------ */
 
 .input-group { margin-bottom: 20px; }
 .input-group label { display: block; margin-bottom: 8px; font-size: 0.9rem; color: #555; font-weight: 600; }
 
-/* تنسيق حقل البحث الجديد (Datalist Input) */
-#countrySearch { 
+/* حقل عرض الدولة (للنقر وفتح الـ Modal) */
+.country-display { 
     width: 100%; 
-    padding: 14px 15px; /* زيادة ارتفاع الحقل لجمالية أفضل */
+    padding: 14px 15px;
     border: 1px solid #d0d0d0; 
     border-radius: 12px; 
     font-size: 1rem; 
     background-color: #ffffff; 
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     transition: all 0.2s;
 }
-
-#countrySearch:focus, #phoneInput:focus { 
-    border-color: #25D366; 
-    outline: none; 
-    box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.2); /* ظل أوسع وأكثر نعومة */
-}
+.country-display:hover { background-color: #f9f9f9; }
+.country-display:active { border-color: #25D366; }
+.country-dropdown-icon { color: #888; transition: transform 0.2s; }
+.country-display:active .country-dropdown-icon { transform: rotate(180deg); } /* دوران الأيقونة عند النقر */
+#selectedCountryName { font-weight: 600; color: #333; }
 
 
 .phone-input-container { display: flex; gap: 10px; margin-bottom: 25px;}
 .country-code-wrapper { 
     display: flex; 
     align-items: center; 
-    background-color: #f0f0f0; /* خلفية افتراضية واضحة */
+    background-color: #f0f0f0; 
     border: 1px solid #d0d0d0; 
     border-radius: 12px; 
     padding: 0 10px; 
-    flex-basis: 120px; /* زيادة العرض قليلاً */
+    flex-basis: 100px; /* تصغير الكود قليلاً لجمالية أفضل */
     flex-shrink: 0; 
     transition: all 0.2s;
 }
-.country-code-wrapper:focus-within { border-color: #25D366; box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.2);}
-#codeInput { border: none; background: transparent; padding: 14px 0; text-align: right; width: 100%; font-size: 1.1rem; font-weight: 700; color: #075E54;}
+#codeInput { border: none; background: transparent; padding: 14px 0; text-align: right; width: 100%; font-size: 1rem; font-weight: 700; color: #075E54;}
 #phoneInput { 
     flex-grow: 1; 
     padding: 14px 15px; 
@@ -138,112 +122,36 @@ body {
     font-size: 1rem; 
     transition: all 0.2s;
 }
+#phoneInput:focus { border-color: #25D366; outline: none; box-shadow: 0 0 0 4px rgba(37, 211, 102, 0.2); }
 .flag-icon { font-size: 1.5rem; margin-left: 10px; min-width: 24px;}
 
-/* زر التثبيت (أزرق) */
-.install-prompt-button { 
-    width: 100%; 
-    padding: 14px; 
-    margin-bottom: 25px; 
-    background-color: #4A90E2; 
-    color: white; 
-    border: none; 
-    border-radius: 12px; 
-    font-size: 1rem; 
-    cursor: pointer; 
-    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.5); 
-    transition: all 0.2s;
-}
-.install-prompt-button:hover { 
-    background-color: #3A7CC7; 
-    transform: translateY(-2px); 
-}
+/* أزرار التطبيق الرئيسية (تم تحديث الألوان قليلاً للجمالية) */
+.install-prompt-button { width: 100%; padding: 14px; margin-bottom: 25px; background-color: #4A90E2; color: white; border: none; border-radius: 12px; font-size: 1rem; cursor: pointer; box-shadow: 0 4px 12px rgba(74, 144, 226, 0.5); transition: all 0.2s; }
+.install-prompt-button:hover { background-color: #3A7CC7; transform: translateY(-2px); }
 
-/* زر بدء المحادثة (أخضر) */
-button:not(.install-prompt-button) { 
-    width: 100%; 
-    padding: 18px; /* زيادة حجم الزر */
-    background-color: #25D366; 
-    color: white; 
-    border: none; 
-    border-radius: 12px; 
-    font-size: 1.2rem; /* زيادة حجم الخط */
-    font-weight: 700; 
-    cursor: pointer; 
-    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.5); 
-    transition: all 0.2s; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center;
+button:not(.install-prompt-button, .share-btn, .close-btn) { 
+    width: 100%; padding: 18px; background-color: #25D366; color: white; border: none; border-radius: 12px; font-size: 1.2rem; font-weight: 700; cursor: pointer; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.5); transition: all 0.2s; display: flex; align-items: center; justify-content: center;
 }
-button:not(.install-prompt-button):hover { 
-    background-color: #1FAF59; 
-    transform: translateY(-2px); 
-}
+button:not(.install-prompt-button, .share-btn, .close-btn):hover { background-color: #1FAF59; transform: translateY(-2px); }
 .icon { width: 22px; height: 22px; margin-left: 10px;}
 
-/* ** تنسيق التنبيه الواضح والبارز ** */
-.note { text-align: center; font-size: 0.85rem; color: #999; margin-top: 15px;}
-.prominent-note {
-    font-size: 0.95rem;
-    font-weight: 700; 
-    color: #FF6347; 
-    padding: 5px 0;
+.prominent-note { font-size: 0.95rem; font-weight: 700; color: #FF6347; padding: 5px 0; text-align: center; margin-top: 15px;}
+
+/* ------------------ قسم أيقونات المشاركة ------------------ */
+
+.share-section { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; width: 100%; flex-shrink: 0; }
+.share-title { font-size: 0.95rem; color: #555; margin-bottom: 15px; font-weight: 600; }
+.share-icons { display: flex; justify-content: space-between; gap: 10px; }
+.share-btn { 
+    flex-grow: 1; padding: 12px 0; height: auto; border-radius: 12px; border: none; color: white; font-size: 1.4rem; cursor: pointer; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); transition: transform 0.2s, opacity 0.2s; display: flex; align-items: center; justify-content: center; min-width: 0; 
 }
-
-
-/* ------------------ قسم أيقونات المشاركة (تصميم جميل) ------------------ */
-
-.share-section {
-    text-align: center;
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-    width: 100%;
-    flex-shrink: 0;
-}
-
-.share-title {
-    font-size: 0.95rem;
-    color: #555;
-    margin-bottom: 15px;
-    font-weight: 600;
-}
-
-.share-icons {
-    display: flex;
-    justify-content: space-between; 
-    gap: 10px; 
-}
-
-.share-btn {
-    flex-grow: 1; 
-    padding: 12px 0; 
-    height: auto; 
-    border-radius: 12px; 
-    border: none;
-    color: white;
-    font-size: 1.4rem; /* تكبير الأيقونات */
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s, opacity 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 0; 
-}
-
-.share-btn:hover {
-    transform: translateY(-2px);
-    opacity: 0.9;
-}
-
+.share-btn:hover { transform: translateY(-2px); opacity: 0.9; }
 .share-btn.whatsapp { background-color: #25D366; }
 .share-btn.messenger { background-color: #0078FF; }
 .share-btn.facebook { background-color: #1877F2; }
 
 
-/* ------------------ التذييل (Footer) المُحسَّن والواضح ------------------ */
+/* ------------------ التذييل (Footer) ------------------ */
 
 .app-footer {
     width: 100%;
@@ -256,36 +164,115 @@ button:not(.install-prompt-button):hover {
     border-top: 1px solid #f0f0f0;
     flex-shrink: 0;
 }
+.contact-link { color: #075E54; text-decoration: none; transition: color 0.3s; font-weight: 800; font-size: 1.0rem; display: block; margin-bottom: 10px;}
+.contact-link:hover { color: #25D366;}
+.copyright-text { margin: 5px 0; font-size: 0.8rem; color: #aaa; }
+.owner-name { font-weight: 700; color: #777; }
 
-/* رابط الاتصال (أكثر وضوحاً وتميزاً) */
-.contact-link {
+/* ************************************ */
+/* تنسيق القائمة المنسدلة المخصصة (Modal) */
+/* ************************************ */
+
+.modal {
+    display: none; /* مخفي افتراضياً */
+    position: fixed; 
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; 
+    background-color: rgba(0,0,0,0.6); /* خلفية سوداء شفافة */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    padding: 20px;
+    border-radius: 15px;
+    width: 90%; 
+    max-width: 450px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    /* لجعله يظهر في الجزء العلوي قليلاً على الشاشات الكبيرة/المتوسطة */
+    position: relative;
+    top: -5vh; 
+    max-height: 80vh; /* تحديد ارتفاع أقصى */
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
     color: #075E54;
-    text-decoration: none;
-    transition: color 0.3s;
-    font-weight: 800; 
-    font-size: 1.0rem; 
-    display: block;
-    margin-bottom: 10px;
 }
 
-.contact-link:hover {
-    color: #25D366;
-}
-
-/* حقوق النشر واسمك */
-.copyright-text {
-    margin: 5px 0;
-    font-size: 0.8rem;
+.close-btn {
     color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
 }
-.owner-name {
-    font-weight: 700;
-    color: #777; 
+.close-btn:hover, .close-btn:focus {
+    color: #333;
+    text-decoration: none;
 }
 
-/* ------------------ Media Query for Desktop View ------------------ */
-@media (min-width: 768px) {
-    .page-wrapper {
-        padding: 40px 10px;
+#modalSearchInput {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.country-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto; /* يجعل القائمة قابلة للتمرير */
+    flex-grow: 1; /* يسمح لها بالنمو لملء المساحة المتبقية */
+}
+
+.country-item {
+    padding: 12px 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+.country-item:hover {
+    background-color: #f0f0f0;
+}
+.country-item:last-child {
+    border-bottom: none;
+}
+
+.country-flag-modal {
+    font-size: 1.2rem;
+    margin-left: 10px;
+}
+
+.country-code-modal {
+    margin-right: auto; /* يدفع الرمز لليسار */
+    font-weight: 600;
+    color: #555;
+    direction: ltr; /* لضمان ظهور الرمز بالشكل الصحيح */
+}
+
+/* ------------------ Media Query for Mobile (تعديل عند الضرورة) ------------------ */
+@media (max-width: 400px) {
+    .container {
+        padding: 20px 15px;
     }
 }
