@@ -1,24 +1,72 @@
-
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title data-key="title"></title>
+    
+    <link rel="stylesheet" href="style.css?v=20251227">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="manifest" href="manifest.json?v=20251227">
+    <link rel="shortcut icon" href="whatsapp-icon.png" type="image/png">
+</head>
 <body>
     
     <div class="page-wrapper" id="pageWrapper"> 
         
-        <h1 class="app-heading">دردشة مباشرة</h1>
-        <p class="description">أسرع وأذكى طريقة للتواصل مباشرة عبر واتساب.</p>
+        <h1 class="app-heading" data-key="title"></h1>
+        <p class="description" data-key="description"></p>
 
-        <button id="installButton" class="install-prompt-button" style="display: none;">
-            📲 تثبيت التطبيق
+        <button id="installButton" class="install-prompt-button" style="display: none;" data-key="install">
         </button>
         
         <div class="main-form">
+            
+            <div class="input-group">
+                <label for="countryInput" data-key="country_label"></label>
+                <input 
+                    list="country-options" 
+                    id="countryInput" 
+                    name="country-input" 
+                    data-key="country_placeholder"
+                    value=""
+                    onchange="updateCodeFromCountry(this.value)"
+                    onclick="this.value = '';"
+                    onblur="restoreCountryValue()"
+                >
+                
+                <datalist id="country-options">
+                </datalist>
             </div>
 
+            <div class="phone-input-container">
+                <div class="country-code-wrapper">
+                    <span id="currentFlag" class="flag-icon flag-icon-sd"></span>
+                    <input 
+                        type="tel" 
+                        id="codeInput" 
+                        value="+249" 
+                        inputmode="numeric" 
+                        oninput="updateCountryFromCode(this.value)"
+                        data-key="code_placeholder"
+                    >
+                </div>
+                <input type="tel" id="phoneInput" data-key="number_placeholder" inputmode="numeric">
+            </div>
+
+        </div>
+
         <button id="whatsappButton" onclick="openWhatsApp()">
-            <img src="whatsapp-icon.png" alt="WhatsApp Icon" class="icon"> بدء المحادثة الآن
+            <img src="whatsapp-icon.png" alt="WhatsApp Icon" class="icon"> 
+            <span data-key="button"></span>
         </button>
         
+
         <div class="share-section">
-            <p class="share-title">شارك التطبيق مع أصدقائك:</p>
+            <p class="share-title" data-key="share_title"></p>
             <div class="share-icons">
                 <button class="share-btn facebook" onclick="shareApp('facebook')"><i class="fab fa-facebook-f"></i></button>
                 <button class="share-btn messenger" onclick="shareApp('messenger')"><i class="fab fa-facebook-messenger"></i></button>
@@ -29,7 +77,9 @@
         </div>
         
         <footer class="app-footer">
-            </footer>
+            <a href="https://linktr.ee/abdul3ziz95" target="_blank" class="contact-link bold-link" data-key="contact"></a>
+            <p class="copyright-text" data-key="copyright"></p>
+        </footer>
         
     </div>
     
@@ -37,3 +87,4 @@
     
 </body>
 </html>
+
