@@ -1,6 +1,7 @@
+
 const APP_LINK = 'https://abdul3ziz95.github.io/zool/';
 const SHARE_MESSAGE = 'جربوا مراسل الواتساب السوداني الفوري! أسرع طريقة لبدء محادثة دون حفظ الرقم. الرابط: ' + APP_LINK;
-const CURRENT_VERSION = '20251225'; // الإصدار المحدث
+const CURRENT_VERSION = '20251226'; // الإصدار المحدث
 
 const COUNTRY_DATA = [
     { name: 'السودان', code: '249', iso: 'sd' }, { name: 'المملكة العربية السعودية', code: '966', iso: 'sa' },
@@ -43,13 +44,16 @@ const COUNTRY_DATA = [
 ];
 
 const codeMap = {};
+// خريطة لربط ISO Code بـ Country Data (مطلوبة للبحث العكسي)
+const isoMap = {}; 
 COUNTRY_DATA.forEach(country => {
     codeMap[country.code] = country;
+    isoMap[country.iso] = country;
 });
+
 
 const codeInput = document.getElementById('codeInput'); 
 const phoneInput = document.getElementById('phoneInput'); 
-// تم حذف messageInput
 const countryInput = document.getElementById('countryInput');
 const countryOptionsList = document.getElementById('country-options');
 const currentFlagSpan = document.getElementById('currentFlag');
@@ -60,7 +64,6 @@ let deferredPrompt;
 
 // ************** 1. وظائف التحكم في الدولة **************
 
-// وظيفة ملء قائمة datalist
 function populateDatalist() {
     countryOptionsList.innerHTML = '';
     COUNTRY_DATA.forEach(country => {
@@ -70,7 +73,6 @@ function populateDatalist() {
     });
 }
 
-// وظيفة تستدعى عند اختيار الدولة من القائمة أو كتابتها
 function updateCodeFromCountry(selectedValue) {
     const match = selectedValue.match(/\((\+)(\d+)\)/);
     const code = match ? match[2] : '';
@@ -84,7 +86,6 @@ function updateCodeFromCountry(selectedValue) {
     }
 }
 
-// وظيفة تستدعى عند كتابة الرمز يدوياً
 function updateCountryFromCode(inputValue) {
     let code = inputValue.replace('+', '').trim(); 
     
@@ -110,20 +111,48 @@ function updateFlag(code) {
     }
 }
 
-// وظيفة لاستعادة القيمة بعد النقر على حقل الدولة ثم الخروج منه بدون اختيار
 function restoreCountryValue() {
     if (!countryInput.value || !countryInput.value.includes('(')) {
         countryInput.value = savedCountryValue;
     }
 }
 
-// ************** 2. وظائف التطبيق الرئيسية **************
+// ************** 2. وظيفة التحديد التلقائي الجديدة **************
+
+async function setCountryAuto() {
+    try {
+        // استخدام خدمة خارجية آمنة وموثوقة (ip-api.com)
+        const response = await fetch('https://ipapi.co/json/');
+        const data = await response.json();
+        
+        // جلب رمز ISO (مثل SA، SD، US)
+        const countryISO = data.country_code.toLowerCase();
+        
+        // البحث عن بيانات الدولة في قائمتنا
+        const countryInfo = COUNTRY_DATA.find(c => c.iso.toLowerCase() === countryISO);
+
+        if (countryInfo) {
+            // تحديث الواجهة بمعلومات الدولة المكتشفة
+            updateFlag(countryInfo.code);
+            codeInput.value = `+${countryInfo.code}`;
+            console.log(`تم التحديد التلقائي للبلد: ${countryInfo.name} (${countryInfo.code})`);
+        } else {
+            console.warn('تم تحديد موقع IP، لكن رمز الدولة غير موجود في القائمة.');
+            updateFlag('249'); // العودة للوضع الافتراضي (السودان)
+        }
+
+    } catch (error) {
+        console.error('فشل في تحديد موقع IP التلقائي، تم تعيين الافتراضي (249).', error);
+        updateFlag('249'); // العودة للوضع الافتراضي (السودان)
+    }
+}
+
+
+// ************** 3. وظائف التطبيق الرئيسية **************
 
 function openWhatsApp() {
     const code = codeInput.value.replace('+', '').trim(); 
     const localNumber = phoneInput.value.trim().replace(/[\s+-]/g, '');
-    
-    // الرسالة التلقائية المطلوبة
     const autoMessage = "السلام عليكم"; 
 
     if (!code || !localNumber || localNumber.length < 6) {
@@ -134,7 +163,6 @@ function openWhatsApp() {
     const fullNumber = code + localNumber;
     let whatsappLink = 'https://wa.me/' + fullNumber;
 
-    // تضمين الرسالة التلقائية
     if (autoMessage) {
         whatsappLink += `?text=${encodeURIComponent(autoMessage)}`;
     }
@@ -163,10 +191,10 @@ function shareApp(platform) {
 }
 
 
-// ************** 3. التهيئة (Initialization) **************
+// ************** 4. التهيئة (Initialization) **************
 
 function initializeApp() {
-    // 3.1. حل مشكلة اهتزاز الشاشة (vh unit fix)
+    // 4.1. حل مشكلة اهتزاز الشاشة (vh unit fix)
     function setVhProperty() {
         let vh = window.innerHeight * 0.01;
         document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -175,14 +203,14 @@ function initializeApp() {
     setVhProperty();
     window.addEventListener('resize', setVhProperty);
     
-    // 3.2. ملء قائمة الدول
+    // 4.2. ملء قائمة الدول
     populateDatalist();
-
-    // 3.3. تهيئة PWA و Service Worker
-    setupPWA();
     
-    // 3.4. تحديث الواجهة الافتراضية
-    updateFlag('249'); 
+    // 4.3. **تنفيذ التحديد التلقائي للدولة**
+    setCountryAuto();
+
+    // 4.4. تهيئة PWA و Service Worker
+    setupPWA();
 }
 
 function setupPWA() {
@@ -219,4 +247,3 @@ function setupPWA() {
 }
 
 window.addEventListener('load', initializeApp);
-
