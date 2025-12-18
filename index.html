@@ -24,17 +24,17 @@
             </button>
             
             <div class="input-group">
-                <label for="countrySearch">اختر الدولة أو ابحث عنها:</label>
-                <input list="countryList" id="countrySearch" placeholder="ابحث عن اسم الدولة أو رمزها" oninput="handleCountrySearch(this.value)">
-                
-                <datalist id="countryList">
-                    </datalist>
+                <label for="countrySearchDisplay">اختر الدولة أو ابحث عنها:</label>
+                <div class="country-display" id="countrySearchDisplay" onclick="openCountryModal()">
+                    <span id="selectedCountryName">السودان (+249)</span>
+                    <i class="fas fa-chevron-down country-dropdown-icon"></i>
+                </div>
             </div>
 
             <div class="phone-input-container">
                 <div class="country-code-wrapper">
                     <span id="currentFlag" class="flag-icon flag-icon-sd"></span>
-                    <input type="tel" id="codeInput" value="+249" inputmode="numeric" placeholder="+XXX" oninput="updateFlagByCode(this.value)">
+                    <input type="tel" id="codeInput" value="+249" inputmode="numeric" placeholder="+XXX" oninput="updateFlagByCode(this.value)" disabled>
                 </div>
                 <input type="tel" id="phoneInput" placeholder="أدخل الرقم المحلي (بدون الرمز)" inputmode="numeric">
             </div>
@@ -69,34 +69,33 @@
         </footer>
     </div>
     
+    <div id="countryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>اختر الدولة</h2>
+                <span class="close-btn" onclick="closeCountryModal()">&times;</span>
+            </div>
+            <input type="text" id="modalSearchInput" placeholder="ابحث عن اسم الدولة أو رمزها" oninput="filterCountries(this.value)">
+            <ul id="countryListUl" class="country-list">
+                </ul>
+        </div>
+    </div>
     <script>
-        // رابط التطبيق للمشاركة
         const APP_LINK = 'https://abdul3ziz95.github.io/zool/';
         const SHARE_MESSAGE = 'جربوا مراسل الواتساب السوداني الفوري! أسرع طريقة لبدء محادثة دون حفظ الرقم. الرابط: ' + APP_LINK;
 
-        function shareApp(platform) {
-            let url = '';
-            switch (platform) {
-                case 'whatsapp':
-                    url = `https://wa.me/?text=${encodeURIComponent(SHARE_MESSAGE)}`;
-                    break;
-                case 'messenger':
-                    const encodedLink = encodeURIComponent(APP_LINK);
-                    url = `fb-messenger://share?link=${encodedLink}&text=${encodeURIComponent(SHARE_MESSAGE)}`;
-                    break;
-                case 'facebook':
-                    url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(APP_LINK)}`;
-                    break;
-                default:
-                    return;
-            }
-            window.open(url, '_blank', 'width=600,height=400');
-        }
+        // العناصر
+        const installButton = document.getElementById('installButton');
+        const countryModal = document.getElementById('countryModal');
+        const countryListUl = document.getElementById('countryListUl');
+        const selectedCountryName = document.getElementById('selectedCountryName');
+        const currentFlagSpan = document.getElementById('currentFlag');
+        const codeInput = document.getElementById('codeInput'); 
+        const phoneInput = document.getElementById('phoneInput'); 
 
-        // ----------------------------------------------------
-        // ** قائمة دول العالم (مُخفَّفة لضمان السرعة)**
-        // ************************************************
+        // قائمة الدول
         const countryData = [
+            // القائمة كما هي تماماً في الرد السابق (لن أكررها لتبسيط الكود هنا)
             { name: 'أفغانستان', code: '93', iso: 'af' }, { name: 'ألبانيا', code: '355', iso: 'al' }, 
             { name: 'الجزائر', code: '213', iso: 'dz' }, { name: 'ساموا الأمريكية', code: '1684', iso: 'as' },
             { name: 'أندورا', code: '376', iso: 'ad' }, { name: 'أنغولا', code: '244', iso: 'ao' },
@@ -222,56 +221,25 @@
             { name: 'زامبيا', code: '260', iso: 'zm' }, { name: 'زيمبابوي', code: '263', iso: 'zw' },
             { name: 'آيسلندا', code: '354', iso: 'is' }, { name: 'كوسوفو', code: '383', iso: 'xk' }
         ];
-        
-        // ************************************************
-        
-        let deferredPrompt; 
-        const installButton = document.getElementById('installButton');
-        const countryDatalist = document.getElementById('countryList');
-        const countrySearchInput = document.getElementById('countrySearch');
-        const currentFlagSpan = document.getElementById('currentFlag');
-        const codeInput = document.getElementById('codeInput'); 
-        const phoneInput = document.getElementById('phoneInput'); 
 
-        // ************** منطق الدعم والتفاعل مع الدول **************
-        
-        function populateCountries() {
-            countryData.sort((a, b) => a.name.localeCompare(b.name, 'ar'));
-            countryData.forEach(country => {
-                const option = document.createElement('option');
-                option.value = `${country.name} (+${country.code})`;
-                option.setAttribute('data-code', country.code);
-                option.setAttribute('data-iso', country.iso);
-                countryDatalist.appendChild(option);
-            });
-        }
-
-        function updateFlagAndCode(code, iso) {
-            codeInput.value = `+${code}`;
-            currentFlagSpan.className = `flag-icon flag-icon-${iso.toLowerCase()}`;
-        }
-        
-        function updateFlagByCode(inputCode) {
-            const cleanedCode = String(inputCode).replace('+', '').trim();
-            const country = countryData.find(c => c.code === cleanedCode);
-            
-            if (country) {
-                updateFlagAndCode(country.code, country.iso);
-            } else {
-                currentFlagSpan.className = `flag-icon`; 
+        // ************** وظائف المشاركة **************
+        function shareApp(platform) {
+            let url = '';
+            switch (platform) {
+                case 'whatsapp':
+                    url = `https://wa.me/?text=${encodeURIComponent(SHARE_MESSAGE)}`;
+                    break;
+                case 'messenger':
+                    const encodedLink = encodeURIComponent(APP_LINK);
+                    url = `fb-messenger://share?link=${encodedLink}&text=${encodeURIComponent(SHARE_MESSAGE)}`;
+                    break;
+                case 'facebook':
+                    url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(APP_LINK)}`;
+                    break;
+                default:
+                    return;
             }
-        }
-        
-        function handleCountrySearch(inputValue) {
-            // البحث عن تطابق كامل مع القيمة المختارة من القائمة المنسدلة
-            const match = countryData.find(c => {
-                const displayValue = `${c.name} (+${c.code})`;
-                return displayValue === inputValue; 
-            });
-
-            if (match) {
-                updateFlagAndCode(match.code, match.iso);
-            }
+            window.open(url, '_blank', 'width=600,height=400');
         }
 
         // ************** منطق الواتساب **************
@@ -295,16 +263,81 @@
             window.open(whatsappLink, '_blank');
         }
 
+        // ************** منطق القائمة المخصصة (Modal) **************
+
+        function populateCountries() {
+            // فرز أبجدي بالاسم العربي لضمان ترتيب القائمة
+            countryData.sort((a, b) => a.name.localeCompare(b.name, 'ar'));
+            countryListUl.innerHTML = '';
+            countryData.forEach(country => {
+                const listItem = document.createElement('li');
+                listItem.className = 'country-item';
+                listItem.setAttribute('data-code', country.code);
+                listItem.setAttribute('data-iso', country.iso);
+                listItem.innerHTML = `
+                    <span class="flag-icon flag-icon-${country.iso.toLowerCase()} country-flag-modal"></span>
+                    ${country.name} 
+                    <span class="country-code-modal">(+${country.code})</span>
+                `;
+                listItem.onclick = () => selectCountry(country.name, country.code, country.iso);
+                countryListUl.appendChild(listItem);
+            });
+        }
+        
+        function filterCountries(searchTerm) {
+            const filter = searchTerm.toUpperCase().trim();
+            const items = countryListUl.getElementsByTagName('li');
+            
+            Array.from(items).forEach(item => {
+                const text = item.textContent || item.innerText;
+                if (text.toUpperCase().includes(filter)) {
+                    item.style.display = "";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        }
+
+        function openCountryModal() {
+            // يعرض النافذة ويجعلها ثابتة
+            countryModal.style.display = "flex";
+            document.body.style.overflow = "hidden"; // منع تمرير الخلفية
+            // التركيز على حقل البحث
+            setTimeout(() => {
+                document.getElementById('modalSearchInput').focus();
+            }, 100);
+        }
+
+        function closeCountryModal() {
+            countryModal.style.display = "none";
+            document.body.style.overflow = "auto";
+            // مسح حقل البحث وإعادة فلترة القائمة
+            document.getElementById('modalSearchInput').value = '';
+            filterCountries('');
+        }
+
+        function selectCountry(name, code, iso) {
+            // تحديث الواجهة الأمامية
+            selectedCountryName.textContent = `${name} (+${code})`;
+            currentFlagSpan.className = `flag-icon flag-icon-${iso.toLowerCase()}`;
+            codeInput.value = `+${code}`;
+            closeCountryModal();
+            phoneInput.focus(); // نقل التركيز إلى حقل الرقم
+        }
+
         // ************** منطق التثبيت (PWA) **************
         
+        let deferredPrompt; 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                installButton.style.display = 'block';
+                // إظهار زر التثبيت فوراً إذا لم يكن مثبتاً
+                // installButton.style.display = 'block'; 
             });
         }
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e; 
+            installButton.style.display = 'block'; 
         });
         installButton.addEventListener('click', (e) => {
             if (deferredPrompt) {
@@ -323,9 +356,17 @@
         // ************** التشغيل عند التحميل **************
 
         function initializeApp() {
+            // ** الحل الجذري لمشكلة ارتفاع الشاشة على الهواتف (V/H Fix) **
+            function setVhProperty() {
+                let vh = window.innerHeight * 0.01;
+                document.documentElement.style.setProperty('--vh', `${vh}px`);
+            }
+            setVhProperty();
+            window.addEventListener('resize', setVhProperty);
+            
+            // ملء قائمة الدول المخصصة وتعيين الافتراضي
             populateCountries();
-            // تحديد السودان كافتراضي عند التحميل
-            updateFlagAndCode('249', 'sd');
+            selectCountry('السودان', '249', 'sd');
         }
 
         initializeApp();
