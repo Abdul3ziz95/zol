@@ -1,24 +1,23 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>مراسل الواتساب المباشر - تطبيق ثابت</title>
+    <title>دردشة مباشرة - تطبيق ثابت</title>
     
-    <link rel="stylesheet" href="style.css?v=20251224">
+    <link rel="stylesheet" href="style.css?v=20251225">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <link rel="manifest" href="manifest.json?v=20251224">
+    <link rel="manifest" href="manifest.json?v=20251225">
     <link rel="shortcut icon" href="whatsapp-icon.png" type="image/png">
 </head>
 <body>
     
     <div class="page-wrapper" id="pageWrapper"> 
         
-        <h1 class="app-heading">مراسل الواتساب المباشر</h1>
+        <h1 class="app-heading">دردشة مباشرة</h1>
         <p class="description">أسرع وأذكى طريقة للتواصل مباشرة عبر واتساب.</p>
 
         <button id="installButton" class="install-prompt-button" style="display: none;">
@@ -59,17 +58,13 @@
                 <input type="tel" id="phoneInput" placeholder="أدخل الرقم المحلي (بدون الرمز)" inputmode="numeric">
             </div>
 
-            <div class="input-group">
-                <label for="messageInput">رسالة مُعدة مسبقاً (اختياري):</label>
-                <textarea id="messageInput" rows="2" placeholder="أدخل رسالة الترحيب التي ستظهر تلقائياً في الواتساب..."></textarea>
             </div>
-        </div>
 
         <button id="whatsappButton" onclick="openWhatsApp()">
             <img src="whatsapp-icon.png" alt="WhatsApp Icon" class="icon"> بدء المحادثة الآن
         </button>
-
-        <p class="note prominent-note">يرجى التأكد من صحة رمز الدولة المدخل.</p>
+        
+        <p class="note prominent-note">سيتم إضافة رسالة "السلام عليكم" تلقائياً كرسالة مُقترحة.</p> 
 
         <div class="share-section">
             <p class="share-title">شارك التطبيق مع أصدقائك:</p>
@@ -87,7 +82,8 @@
         
     </div>
     
-    <script src="script.js?v=20251224"></script>
+    <script src="script.js?v=20251225"></script>
     
 </body>
 </html>
+
