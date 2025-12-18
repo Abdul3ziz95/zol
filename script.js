@@ -1,6 +1,6 @@
 
 const APP_LINK = 'https://abdul3ziz95.github.io/zool/';
-const SHARE_MESSAGE = 'جربوا مراسل الواتساب السوداني الفوري! أسرع طريقة لبدء محادثة دون حفظ الرقم. الرابط: ' + APP_LINK;
+const SHARE_MESSAGE = 'جربوا مراسل الواتساب الفوري! أسرع طريقة لبدء محادثة دون حفظ الرقم. الرابط: ' + APP_LINK;
 const CURRENT_VERSION = '20251227'; // الإصدار المحدث
 
 const COUNTRY_DATA = [
