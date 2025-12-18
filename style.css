@@ -74,6 +74,7 @@ body {
 
 /* ------------------ PWA Install Button ------------------ */
 .install-prompt-button {
+    width: 100%;
     background-color: #f0f0f0;
     color: #075E54;
     border: 1px solid #ddd;
@@ -90,51 +91,41 @@ body {
 }
 
 
-/* ------------------ زر تبديل اللغة (تصميم متطور وجذاب) ------------------ */
+/* ------------------ زر تبديل اللغة (التنسيق الجديد المطلوب) ------------------ */
 #langToggleBtn {
-    /* الموضع: ثابت في الزاوية العلوية (يتبع الاتجاه RTL/LTR) */
-    position: fixed;
-    top: 20px; 
-    /* ثابت في الجهة المقابلة للاتجاه */
-    inset-inline-end: 20px; 
+    /* تم إزالة التنسيق الثابت (position: fixed) */
     
-    z-index: 1000;
+    /* تنسيق ليتناسب مع منطقة المشاركة */
+    margin-top: 25px; 
+    width: 100%; /* جعله يأخذ عرض الحاوية بالكامل */
     
     /* الشكل والحجم */
-    padding: 8px 15px; 
-    min-width: 90px;
+    padding: 10px 15px; 
     
     /* الألوان والمظهر */
-    background: linear-gradient(145deg, #f7f7f7, #e0e0e0); /* تدرج لوني خفيف */
-    color: #075E54; /* لون الواتساب ليتناسب مع التطبيق */
-    border: none;
-    border-radius: 20px; /* زوايا مدورة أكثر عصرية */
+    background: #f0f0f0; 
+    color: #075E54; 
+    border: 2px solid #ddd;
+    border-radius: 12px; 
     
-    /* الظل البارز (Neumorphism / Soft Shadow) */
-    box-shadow: 
-        3px 3px 6px #b8b8b8,  /* ظل سفلي يمين غامق */
-        -3px -3px 6px #ffffff; /* ظل علوي يسار فاتح لإعطاء عمق */
+    /* الظل أصبح ظل عادي ليتناسب مع بقية العناصر */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
     
     /* النص والخط */
     cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 800; /* خط ثقيل لزيادة الوضوح */
-    letter-spacing: 0.5px;
+    font-size: 1rem;
+    font-weight: 700;
     
     /* المؤثرات والتفاعل */
     transition: all 0.2s ease-in-out; 
-    
-    /* منع تحديد النص */
     user-select: none;
 }
 
-/* مؤثر عند الضغط (لإعطاء إحساس ثلاثي الأبعاد بالضغط) */
+/* مؤثر عند الضغط */
 #langToggleBtn:active {
-    box-shadow: 
-        inset 1px 1px 2px #b8b8b8,  /* ظل داخلي للضغط */
-        inset -1px -1px 2px #ffffff;
-    transform: scale(0.98); /* تصغير خفيف لإحساس الضغط */
+    transform: scale(0.99); 
     background: #e0e0e0;
+    box-shadow: none;
 }
 
 /* مؤثر عند مرور الفأرة */
@@ -285,7 +276,12 @@ body {
     flex-grow: 1; 
 }
 .share-title { font-size: 0.9rem; color: #555; margin-bottom: 15px; font-weight: 600; }
-.share-icons { display: flex; justify-content: space-between; gap: 8px; }
+.share-icons { 
+    display: flex; 
+    justify-content: space-between; 
+    gap: 8px; 
+    margin-bottom: 0; /* تم إزالة الهامش السفلي للسماح لزر اللغة بالظهور بعده مباشرة */
+}
 .share-btn { 
     flex-grow: 1; 
     padding: 12px 0; 
