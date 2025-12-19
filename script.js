@@ -170,15 +170,19 @@ function shareApp(platform) {
     switch (platform) {
         case 'whatsapp':
             url = `https://wa.me/?text=${encodeURIComponent(finalMessage)}`;
-            break;
-                case 'messenger':
+                    case 'messenger':
             if (navigator.share) {
                 navigator.share({
                     title: 'دردشة مباشرة',
                     text: finalMessage,
                     url: finalLink
                 }).catch(() => {});
-                url =https://abdul3ziz95.github.io/zol/
+                return;
+            } else {
+                url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(finalLink)}`;
+            }
+            break;
+
             } else {
                 url = `https://ww.facebook.com/sharer/sharer.php?u=${encodeURIComponent(finalLink)}`;
             }
