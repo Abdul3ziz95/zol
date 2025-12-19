@@ -182,6 +182,33 @@ function shareApp(platform) {
     window.open(url, '_blank', 'width=600,height=400');
 }
 
+// الدالة الجديدة: مشاركة المحتوى مع الحل البديل المضمون
+function shareContentInSamePage() {
+    const textToShare = 'جربوا مراسل الواتساب الفوري! أسرع طريقة لبدء محادثة دون حفظ الرقم. الرابط';
+    const urlToShare = 'https://abdul3ziz95.github.io/zol/';
+    const fullMessage = textToShare + ' ' + urlToShare;
+
+    const shareData = {
+        title: 'مراسل واتساب فوري',
+        text: textToShare,
+        url: urlToShare
+    };
+
+    // 1. محاولة استخدام واجهة المشاركة النظامية (Web Share API)
+    if (navigator.share) {
+        navigator.share(shareData)
+            .then(() => console.log('تمت المشاركة بنجاح عبر الواجهة النظامية.'))
+            .catch((error) => {
+                // إذا فشلت الواجهة النظامية، ننتقل للحل البديل
+                console.error('فشل Web Share API. التحويل إلى رابط مباشر:', error);
+                window.open(`https://wa.me/?text=${encodeURIComponent(fullMessage)}`, '_blank');
+            });
+    } else {
+        // 2. الحل البديل (عند عدم دعم المتصفح)
+        window.open(`https://wa.me/?text=${encodeURIComponent(fullMessage)}`, '_blank');
+    }
+}
+
 
 // ************** 4. التهيئة (Initialization) **************
 
