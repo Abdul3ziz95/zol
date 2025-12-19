@@ -180,12 +180,12 @@ function shareApp(platform) {
                 }).catch(() => {});
                 url = null;
             } else {
-                url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(finalLink)}`;
+                url = `https://ww.facebook.com/sharer/sharer.php?u=${encodeURIComponent(finalLink)}`;
             }
             break;
 
         case 'facebook':
-            url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(finalLink)}`;
+            url = `https://m.facebook.com/sharer/sharer.php?u=${encodeURIComponent(finalLink)}`;
             break;
         default:
             return;
