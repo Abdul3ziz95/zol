@@ -178,7 +178,7 @@ function shareApp(platform) {
                     text: finalMessage,
                     url: finalLink
                 }).catch(() => {});
-                url = null;
+                url =https://abdul3ziz95.github.io/zol/
             } else {
                 url = `https://ww.facebook.com/sharer/sharer.php?u=${encodeURIComponent(finalLink)}`;
             }
