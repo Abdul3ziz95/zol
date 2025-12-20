@@ -1,3 +1,4 @@
+
 const APP_LINK = 'https://abdul3ziz95.github.io/zol/';
 const SHARE_MESSAGE = 'جربوا مراسل الواتساب الفوري! أسرع طريقة لبدء محادثة دون حفظ الرقم. الرابط: ' + APP_LINK;
 const CURRENT_VERSION = '20251227'; // الإصدار المحدث
@@ -182,34 +183,6 @@ function shareApp(platform) {
     window.open(url, '_blank', 'width=600,height=400');
 }
 
-// الدالة المعدلة: الاكتفاء بواجهة المشاركة النظامية فقط
-function shareContentInSamePage() {
-    const textToShare = 'جربوا مراسل الواتساب الفوري! أسرع طريقة لبدء محادثة دون حفظ الرقم. الرابط';
-    const urlToShare = 'https://abdul3ziz95.github.io/zol/';
-    
-    const shareData = {
-        title: 'مراسل واتساب فوري',
-        text: textToShare,
-        url: urlToShare
-    };
-
-    // محاولة استخدام واجهة المشاركة النظامية (Web Share API)
-    if (navigator.share) {
-        navigator.share(shareData)
-            .then(() => console.log('تمت المشاركة بنجاح عبر الواجهة النظامية.'))
-            .catch((error) => {
-                // في حالة فشل المشاركة النظامية، لا يتم تفعيل أي حل بديل
-                console.error('فشل Web Share API. لا يوجد حل بديل مفعل.', error);
-                // يمكنك إزالة التعليق من السطر التالي إذا أردت تنبيه المستخدم في حال فشلت المشاركة
-                // alert('فشل فتح قائمة المشاركة.');
-            });
-    } else {
-        // عند عدم دعم المتصفح، لا يتم تفعيل أي حل بديل
-        console.error('خاصية المشاركة غير مدعومة في هذا المتصفح.');
-        // alert('خاصية المشاركة غير مدعومة في متصفحك.');
-    }
-}
-
 
 // ************** 4. التهيئة (Initialization) **************
 
@@ -230,19 +203,15 @@ function initializeApp() {
     setupPWA();
 }
 
+/**
+ * تهيئة Service Worker لدعم PWA/TWA.
+ * تم تعديل النطاق (scope) ومسار التسجيل ليصبحا نسبيين ('/')
+ * ليتناسبا مع بيئة التشغيل كـ Trusted Web Activity.
+ */
 function setupPWA() {
-     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.getRegistrations().then(function(registrations) {
-            for(let registration of registrations) {
-                // تم التحديث هنا: zool -> zol
-                if(registration.scope.includes('/zol/')) { 
-                   registration.unregister().catch(() => {});
-                }
-            }
-        });
-        
-         // تم التحديث هنا: zool -> zol
-         navigator.serviceWorker.register(`/zol/sw.js?v=${CURRENT_VERSION}`, { scope: '/zol/' }) 
+    if ('serviceWorker' in navigator) {
+        // تسجيل الـ Service Worker باستخدام المسار النسبي (Root Scope)
+         navigator.serviceWorker.register(`/sw.js?v=${CURRENT_VERSION}`, { scope: '/' }) 
             .catch(() => {});
     }
     
@@ -266,4 +235,3 @@ function setupPWA() {
 }
 
 window.addEventListener('load', initializeApp);
-
