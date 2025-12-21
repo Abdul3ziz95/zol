@@ -205,13 +205,13 @@ function initializeApp() {
 
 /**
  * تهيئة Service Worker لدعم PWA/TWA.
- * تم تعديل النطاق (scope) ومسار التسجيل ليصبحا نسبيين ('/')
- * ليتناسبا مع بيئة التشغيل كـ Trusted Web Activity.
+ * تم التعديل لاستخدام مسار ونطاق نسبي (Relative Path and Scope) 
+ * لحل مشكلة التعرف عليه على خوادم GitHub Pages الفرعية.
  */
 function setupPWA() {
     if ('serviceWorker' in navigator) {
-        // تسجيل الـ Service Worker باستخدام المسار النسبي (Root Scope)
-         navigator.serviceWorker.register(`/sw.js?v=${CURRENT_VERSION}`, { scope: '/' }) 
+        // تسجيل الـ Service Worker باستخدام المسار النسبي (./)
+         navigator.serviceWorker.register(`sw.js?v=${CURRENT_VERSION}`, { scope: './' }) 
             .catch(() => {});
     }
     
@@ -235,3 +235,4 @@ function setupPWA() {
 }
 
 window.addEventListener('load', initializeApp);
+
