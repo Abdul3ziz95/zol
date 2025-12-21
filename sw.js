@@ -1,3 +1,4 @@
+
 const CACHE_NAME = 'whatsapp-messenger-v20251227'; //  *** رقم الإصدار الجديد ***
 const urlsToCache = [
     './', // يشير إلى index.html في هذا المسار
@@ -48,4 +49,3 @@ self.addEventListener('activate', event => {
         })
     );
 });
-
