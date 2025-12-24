@@ -3,6 +3,9 @@
       "target": {
         "namespace": "android_app",
         "package_name": "io.github.abdul3ziz95.twa",
-        "sha256_cert_fingerprints": ["9B:D3:E6:50:3D:ED:36:96:D6:5D:F2:9B:4E:58:71:54:95:A9:A3:3E:15:65:D6:13:1B:B4:95:CD:76:E0:9D:83"]
+        "sha256_cert_fingerprints": [
+          "BE:E4:92:B0:B7:BE:17:84:24:E1:D3:D3:C0:61:71:D2:F1:C0:28:A8:E1:5D:0B:62:D4:C7:2D:2F:4D:52:9F:62"
+        ]
       }
     }]
+
