@@ -239,6 +239,69 @@ function setupPWA() {
         }
     });
 }
+// دالة للكشف عما إذا كان المستخدم في متصفح مُضمن
+function isRunningInAppBrowser() {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    
+    // كشف متصفحات الفيسبوك وواتساب وانستجرام المضمنة (iOS & Android)
+    if (userAgent.includes('FBAV') || userAgent.includes('FBDV') || userAgent.includes('Instagram') || userAgent.includes('FBAN')) {
+        return true;
+    }
+    
+    // كشف المتصفحات المضمنة في تطبيقات أخرى مثل تويتر ولينكدإن
+    // (غالباً ما تكون نافذة واحدة بدون شريط عنوان المتصفح)
+    if (window.navigator.standalone === false) { 
+        return true; 
+    }
+    
+    // محاولة الكشف عن متصفحات WebView الأقل شيوعاً
+    const isIos = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+    const isAndroid = /android/i.test(userAgent);
+    if ((isIos || isAndroid) && !userAgent.includes('Safari') && !userAgent.includes('Chrome')) {
+         return true;
+    }
+    
+    return false;
+}
+
+// دالة توجيه المستخدم لفتح الرابط في متصفح خارجي
+function redirectToExternalBrowser() {
+    if (isRunningInAppBrowser()) {
+        const currentUrl = window.location.href;
+        // هنا نقوم بفتح الرابط نفسه في نافذة جديدة، مما يجبر النظام على استخدام المتصفح الافتراضي.
+        window.open(currentUrl, '_system');
+        
+        // إيقاف تحميل الموقع في المتصفح المضمن
+        // (قد نحتاج إلى إخفاء محتوى الصفحة أو إظهار رسالة بسيطة)
+        document.body.innerHTML = '<h1>الرجاء المتابعة في متصفحك الافتراضي (مثل كروم أو سفاري).</h1>';
+        return true;
+    }
+    return false;
+}
+
+// تعديل دالة التهيئة لتشغيل الكشف
+function initializeApp() {
+    // التحقق أولاً: إذا كان في متصفح مُضمن، نوقف العملية.
+    if (redirectToExternalBrowser()) {
+        return; 
+    }
+    
+    // ... باقي وظائف التهيئة الأصلية
+    function setVhProperty() {
+        // ... (الكود الأصلي)
+    }
+    // ...
+    setVhProperty();
+    window.addEventListener('resize', setVhProperty);
+    
+    populateDatalist();
+    
+    // تنفيذ التحديد التلقائي
+    setCountryAuto();
+
+    setupPWA();
+}
+
 
 window.addEventListener('load', initializeApp);
 
