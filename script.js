@@ -239,35 +239,6 @@ function setupPWA() {
         }
     });
 }
-// دالة للكشف عما إذا كان المستخدم في متصفح مُضمن
-function isRunningInAppBrowser() {
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-    
-    // كشف متصفحات الفيسبوك وواتساب وانستجرام المضمنة (iOS & Android)
-    if (userAgent.includes('FBAV') || userAgent.includes('FBDV') || userAgent.includes('Instagram') || userAgent.includes('FBAN')) {
-        return true;
-    }
-    
-    // كشف المتصفحات المضمنة في تطبيقات أخرى مثل تويتر ولينكدإن
-    // (غالباً ما تكون نافذة واحدة بدون شريط عنوان المتصفح)
-    if (window.navigator.standalone === false) { 
-        return true; 
-    }
-    
-    // محاولة الكشف عن متصفحات WebView الأقل شيوعاً
-    const isIos = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
-    const isAndroid = /android/i.test(userAgent);
-    if ((isIos || isAndroid) && !userAgent.includes('Safari') && !userAgent.includes('Chrome')) {
-         return true;
-    }
-    
-    return false;
-}
-
-
-    setupPWA();
-}
-
 
 window.addEventListener('load', initializeApp);
 
